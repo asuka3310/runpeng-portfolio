@@ -20,8 +20,8 @@ const dict = t(locale);
     <p class="section-subtitle">{dict.projects.subtitle}</p>
   </div>
 
+  <!-- Featured: MEMS thesis (large) + 2 course projects -->
   <div class="grid gap-5 sm:grid-cols-2 lg:grid-cols-3 lg:grid-rows-2 sm:gap-6">
-    <!-- MEMS: spans 2 cols × 2 rows on lg -->
     <div class="reveal sm:col-span-2 lg:col-span-2 lg:row-span-2">
       <ProjectCard project={projects[0]} locale={locale} bigCard={true} />
     </div>
@@ -31,5 +31,10 @@ const dict = t(locale);
     <div class="reveal">
       <ProjectCard project={projects[2]} locale={locale} />
     </div>
+  </div>
+
+  <!-- Bachelor's Thesis: full-width row -->
+  <div class="mt-5 reveal sm:mt-6">
+    <ProjectCard project={projects[3]} locale={locale} />
   </div>
 </section>

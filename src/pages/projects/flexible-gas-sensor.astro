@@ -1,0 +1,27 @@
+---
+import ProjectLayout from '@/layouts/ProjectLayout.astro';
+import GasSensorContent from '@/components/projects/GasSensorContent.astro';
+import { getLocaleFromUrl } from '@/lib/i18n';
+import { getProject } from '@/lib/projects';
+
+const locale = getLocaleFromUrl(Astro.url);
+const project = getProject('flexible-gas-sensor');
+
+const title = '柔性氣體傳感器調理電路';
+const subtitle = '上海交大本科畢業論文 · 多模態可重構後端電路 · 指導教授 曾敏';
+const tldr = [
+  '針對 MXene 二維材料柔性氣體傳感器設計訊號調理電路：多模態可重構後端，可同時偵測 R/I/C/V 四種信號中的兩個以上。',
+  '基於計數晶片的多路復用選通電路 + 電容串擾屏蔽機制 + PXI-6289 18-bit A/D。',
+  '整合 STM32 + HC-05 藍牙無線傳輸，從感測器原始輸出到手機 App 即時顯示，端到端完整實作。',
+];
+---
+
+<ProjectLayout
+  project={project}
+  locale={locale}
+  title={title}
+  subtitle={subtitle}
+  tldr={tldr}
+>
+  <GasSensorContent locale={locale} />
+</ProjectLayout>

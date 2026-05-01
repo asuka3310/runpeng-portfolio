@@ -27,7 +27,10 @@ const isZh = locale === 'zh-TW';
               碩士論文設計了一款電子驅動 MEMS 光開關，提出用 SiO₂ 蛇形彈簧取代傳統 torsion 結構，搭配分裂式底電極差動驅動方案，淨扭矩放大 4 倍。完整建立了電-機耦合解析模型，並在 COMSOL Multiphysics 上完成靜態與動態雙模擬，理論與模擬吻合度達 99%。
             </p>
             <p>
-              在類比 IC 設計領域，我使用 Cadence Virtuoso 與 FreePDK 45 nm 製程，獨立或與隊友合作完成兩個專案：rail-to-rail 差動比較器（0.9 V 電源）、LS-Buffer 兩階運算放大器（電壓位準轉換）。兩者都經過 Monte Carlo 與 Corner 驗證流程。
+              在類比 IC 設計領域，我使用 <strong class="text-ink">Cadence Virtuoso</strong>（含 Schematic Editor、Layout Suite、ADE-XL）與 FreePDK 45 nm 製程，完成 rail-to-rail 差動比較器（0.9 V 電源，三人組）與 LS-Buffer 兩階運算放大器（電壓位準轉換，兩人組）。兩者都經過 Monte Carlo 與 Corner 驗證流程。Cadence 工具鏈是我目前最熟練的部分。
+            </p>
+            <p>
+              本科畢業論文是<strong class="text-ink">柔性氣體傳感器調理電路設計</strong>（指導教授曾敏），把 MXene 二維材料感測器、多模態可重構後端電路（R/I/C/V）、PXI-6289 高精度 A/D，與 STM32 + 藍牙手機 App 整合成完整的端到端系統。從感測器原始信號到使用者介面這條鏈路我都實作過一遍。
             </p>
             <p>
               我喜歡把<strong class="text-ink">物理直覺</strong>與<strong class="text-ink">電路層級設計</strong>連在一起。寫公式時想著電晶體在做什麼；佈局時想著電場怎麼分布。MEMS 教會我從元件到系統的完整鏈路；類比 IC 訓練我在電晶體層級做精細決定。
@@ -45,7 +48,10 @@ const isZh = locale === 'zh-TW';
               For my master's thesis, I designed an electrostatically driven MEMS optical switch. I replaced the traditional torsion structure with SiO₂ serpentine springs and adopted a split-bottom-electrode differential drive — amplifying net torque by 4×. I built a complete electromechanical coupled model and validated it in COMSOL Multiphysics with both static and dynamic simulations, achieving 99% theory-vs-simulation agreement.
             </p>
             <p>
-              In analog IC design, using Cadence Virtuoso on FreePDK 45 nm, I have completed two projects (solo and team): a rail-to-rail differential comparator at 0.9 V supply, and an LS-Buffer two-stage op-amp for voltage level shifting. Both went through Monte Carlo and corner-analysis verification flows.
+              In analog IC design, I work with <strong class="text-ink">Cadence Virtuoso</strong> (Schematic Editor, Layout Suite, ADE-XL) on FreePDK 45 nm. Completed a rail-to-rail differential comparator (0.9 V, team of 3) and an LS-Buffer two-stage op-amp (level shifting, team of 2), both verified through Monte Carlo and corner analysis. The Cadence toolchain is the area I'm currently strongest in.
+            </p>
+            <p>
+              My bachelor's thesis was the <strong class="text-ink">design of a signal conditioning circuit for flexible gas sensors</strong> (supervisor: Prof. Zeng Min). It integrates MXene-based 2D material sensors, a multi-modal reconfigurable back-end (R/I/C/V), high-precision A/D via PXI-6289, and an STM32 + Bluetooth mobile-app pipeline into a complete end-to-end system. I have implemented the entire chain from raw sensor output to user-facing display.
             </p>
             <p>
               I enjoy connecting <strong class="text-ink">physical intuition</strong> with <strong class="text-ink">circuit-level design</strong>. When deriving equations I'm thinking about what the transistor is doing; when laying out, I'm thinking about how the field distributes. MEMS gave me end-to-end thinking from device to system; analog IC trained me to make fine-grained decisions at transistor level.

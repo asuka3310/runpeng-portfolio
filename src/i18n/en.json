@@ -36,6 +36,11 @@
       "title": "LS-Buffer Op-Amp",
       "subtitle": "Voltage level shift ±5V → 1V",
       "summary": "Two-stage op-amp design with 78 dB DC gain, meeting all GBW, PM, and slew-rate specifications."
+    },
+    "gassensor": {
+      "title": "Flexible Gas Sensor Conditioning Circuit",
+      "subtitle": "Bachelor's thesis · Multi-modal reconfigurable circuit",
+      "summary": "Signal-conditioning circuit for MXene-based flexible gas sensors. Multi-modal reconfigurable back-end detects R/I/C/V signals simultaneously; integrates STM32 + Bluetooth for wireless acquisition."
     }
   },
   "skills": {

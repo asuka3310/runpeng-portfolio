@@ -17,7 +17,13 @@ const dict = t(locale);
 const { prev, next } = adjacent(project.slug);
 
 const tkey = (slug: string) =>
-  slug === 'mems-optical-switch' ? 'mems' : slug === 'rail-to-rail-comparator' ? 'comparator' : 'opamp';
+  slug === 'mems-optical-switch'
+    ? 'mems'
+    : slug === 'rail-to-rail-comparator'
+      ? 'comparator'
+      : slug === 'ls-buffer-opamp'
+        ? 'opamp'
+        : 'gassensor';
 const projDict = (k: string) => (dict.projects as any)[k];
 ---
 

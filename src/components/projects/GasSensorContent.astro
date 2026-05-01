@@ -1,0 +1,158 @@
+---
+import SectionBlock from '@/components/SectionBlock.astro';
+import StatCallout from '@/components/StatCallout.astro';
+import { type Locale } from '@/lib/i18n';
+
+interface Props {
+  locale: Locale;
+}
+const { locale } = Astro.props;
+const isZh = locale === 'zh-TW';
+---
+
+<SectionBlock
+  title={isZh ? '問題' : 'Problem'}
+  eyebrow="01 / Problem"
+>
+  {isZh ? (
+    <>
+      <p>
+        室內生活與工作環境中存在的有毒氣體（CO、H₂S、甲醛、苯系物等）長期暴露會嚴重危害人體健康。隨著柔性可穿戴電子的興起，<strong>柔性氣體感測器</strong>具有大面積、低成本、可彎折的優勢，但兩個問題待解：
+      </p>
+      <ul class="ml-5 list-disc space-y-2">
+        <li>柔性感測器輸出多為<strong>微弱小信號</strong>（μV / nA 等級），需要高精度的訊號調理電路。</li>
+        <li>市面上的放大器通常只匹配電阻、電流、電容、電壓（R/I/C/V）<strong>單一信號類型</strong>，後端電路與感測器類型耦合過深，缺乏通用性。</li>
+      </ul>
+    </>
+  ) : (
+    <>
+      <p>
+        Long-term exposure to indoor toxic gases (CO, H₂S, formaldehyde, BTX) seriously harms human health. <strong>Flexible gas sensors</strong> offer large-area, low-cost, bendable advantages over rigid silicon — but two problems remain:
+      </p>
+      <ul class="ml-5 list-disc space-y-2">
+        <li>Output is typically a <strong>weak small signal</strong> (μV / nA scale), requiring high-precision conditioning circuitry.</li>
+        <li>Commercial amplifiers match only one signal type (R, I, C, or V); back-end circuits are tightly coupled to sensor type, lacking generality.</li>
+      </ul>
+    </>
+  )}
+</SectionBlock>
+
+<SectionBlock
+  title={isZh ? '解決方案' : 'Solution'}
+  eyebrow="02 / Solution"
+>
+  {isZh ? (
+    <>
+      <p>
+        以二維 <strong>MXene 材料</strong>為基礎的柔性氣體感測器為對象，設計一套通用的訊號調理電路，端到端涵蓋類比前端、A/D 採集、無線傳輸：
+      </p>
+      <ol class="ml-5 list-decimal space-y-3">
+        <li>
+          <strong>多模態可重構後端電路</strong>。電路內部用切換開關重構訊號路徑，**同時支援 R / I / C / V 四種信號中的兩個或多個並行偵測**。任一通道超過閾值即觸發報警。即使其中一個感測器故障，整體仍能維持容錯偵測。
+        </li>
+        <li>
+          <strong>複用式採集 + 電容串擾屏蔽</strong>。採用計數晶片驅動多路選通電路，做時序復用採集；針對電容感測器陣列，用選通開關把未選通通道接地，**消除電容耦合串擾**。
+        </li>
+        <li>
+          <strong>電壓微弱信號的電荷放大電路</strong>。前置電荷放大器把感測器原始輸出放大到適合 ADC 的範圍，由 NI <strong>PXI-6289</strong> 採集卡完成 18-bit A/D 轉換。
+        </li>
+        <li>
+          <strong>STM32 + HC-05 藍牙無線採集</strong>。資料經 STM32 處理後透過藍牙模組傳到手機 App，**即時顯示有害氣體濃度**。透過時序控制達到低功耗運作。
+        </li>
+      </ol>
+    </>
+  ) : (
+    <>
+      <p>
+        Targeting flexible gas sensors based on two-dimensional <strong>MXene</strong> material, the design covers analog front-end, A/D acquisition, and wireless transmission end-to-end:
+      </p>
+      <ol class="ml-5 list-decimal space-y-3">
+        <li>
+          <strong>Multi-modal reconfigurable back-end.</strong> Internal switches reroute signal paths to <strong>simultaneously detect two or more of R / I / C / V signal types</strong>. Any channel exceeding threshold triggers an alarm. Fault-tolerant — failure of one sensor doesn't disable the system.
+        </li>
+        <li>
+          <strong>Multiplexed acquisition + capacitive crosstalk shielding.</strong> Counter-IC-driven multiplexer for time-shared sampling; for capacitive sensor arrays, the switching logic grounds non-selected channels to <strong>eliminate capacitive coupling crosstalk</strong>.
+        </li>
+        <li>
+          <strong>Charge-amplifier front-end for weak voltage signals.</strong> Charge amplifier conditions raw sensor output to ADC-friendly range; NI <strong>PXI-6289</strong> performs 18-bit A/D conversion.
+        </li>
+        <li>
+          <strong>STM32 + HC-05 Bluetooth wireless acquisition.</strong> Data is processed by STM32 and transmitted via Bluetooth to a mobile app, <strong>displaying harmful gas concentrations in real-time</strong>. Timing control enables low-power operation.
+        </li>
+      </ol>
+    </>
+  )}
+</SectionBlock>
+
+<SectionBlock
+  title={isZh ? '關鍵成果' : 'Key Results'}
+  eyebrow="03 / Results"
+>
+  <div class="!mt-4 grid grid-cols-2 gap-3 sm:grid-cols-4 sm:gap-4">
+    <StatCallout value="4" label={isZh ? '訊號模態 (R/I/C/V)' : 'Signal modes (R/I/C/V)'} />
+    <StatCallout value="18" unit="-bit" label={isZh ? 'A/D 解析度' : 'A/D resolution'} />
+    <StatCallout value="MXene" label={isZh ? '二維材料' : '2D material'} />
+    <StatCallout value="BLE" label={isZh ? '無線傳輸' : 'Wireless link'} />
+  </div>
+
+  {isZh ? (
+    <p class="!mt-6">
+      系統從感測器原始信號到手機 App 即時顯示，整條鏈路完整工作。電路完整實作了多模態切換、電容屏蔽、電荷放大、A/D 轉換、藍牙傳輸五個模組。論文最終獲上海交通大學<strong>學士學位論文</strong>通過。
+    </p>
+  ) : (
+    <p class="!mt-6">
+      The full chain — from raw sensor signal to real-time mobile app display — works end-to-end. The circuit integrates multi-modal switching, capacitive shielding, charge amplification, A/D conversion, and Bluetooth transmission across five modules. Submitted as <strong>Bachelor's Thesis at SJTU</strong> and successfully defended.
+    </p>
+  )}
+</SectionBlock>
+
+<SectionBlock
+  title={isZh ? '技術細節' : 'Technical Deep-Dive'}
+  eyebrow="04 / Deep-Dive"
+>
+  {isZh ? (
+    <>
+      <h3 class="font-display text-lg font-semibold text-ink !mt-2">為什麼需要可重構電路</h3>
+      <p>
+        傳統做法是針對每種感測器類型開發專用後端電路 — R 型一個、I 型一個、C 型一個。這在實驗室開發階段成本高、難以驗證跨類型性能差異。可重構電路把<strong>所有可能路徑做進同一塊板子</strong>，由開關矩陣決定當下用哪一條，同時對研究員與終端用戶都更友善。
+      </p>
+
+      <h3 class="font-display text-lg font-semibold text-ink !mt-6">電容串擾屏蔽</h3>
+      <p>
+        電容感測器陣列有個特有問題：當你採集第 N 個通道時，旁邊未選通的通道仍然會透過耦合電容滲入訊號。一般做法是<strong>把未選通通道接地</strong>而非懸空，把寄生電容變成接地電容（被吸收掉），實測可大幅降低串擾誤差。
+      </p>
+
+      <h3 class="font-display text-lg font-semibold text-ink !mt-6">為什麼選 PXI-6289</h3>
+      <p>
+        PXI-6289 是 NI 的 18-bit / 625 kS/s 多功能 DAQ 卡，提供高精度 A/D 與類比輸出，適合實驗室階段的訊號採集驗證。論文中作為基準資料源，後續整合進 STM32 的板載 ADC 之前先用它確認電路本身行為正確。
+      </p>
+
+      <h3 class="font-display text-lg font-semibold text-ink !mt-6">系統整合 — 從電路到 App</h3>
+      <p>
+        本論文最大價值不在單一電路新穎性，而在<strong>完整的端到端系統</strong>：MXene 感測器 → 訊號調理 → A/D 採集 → STM32 韌體 → 藍牙 → 手機 App。每一段都實作出來了，這對應業界 IC 工程師需要對「從矽到使用者」整條鏈路有判斷力。
+      </p>
+    </>
+  ) : (
+    <>
+      <h3 class="font-display text-lg font-semibold text-ink !mt-2">Why Reconfigurable Circuits</h3>
+      <p>
+        The conventional approach builds a dedicated back-end per sensor type — separate boards for R, I, C, and V types. In research this is costly and makes cross-type performance comparison hard. A reconfigurable circuit puts <strong>all possible paths on one board</strong>, with a switch matrix selecting the active path — better for both researchers and end users.
+      </p>
+
+      <h3 class="font-display text-lg font-semibold text-ink !mt-6">Capacitive Crosstalk Shielding</h3>
+      <p>
+        Capacitive sensor arrays have a specific issue: while sampling channel N, neighboring unselected channels still leak signal through coupling capacitance. The trick: <strong>ground the unselected channels</strong> instead of leaving them floating — this absorbs the parasitic capacitance and reduces crosstalk significantly.
+      </p>
+
+      <h3 class="font-display text-lg font-semibold text-ink !mt-6">Why PXI-6289</h3>
+      <p>
+        NI's PXI-6289 is an 18-bit / 625 kS/s multifunction DAQ — high-precision A/D and analog out, suitable for lab-stage acquisition. The thesis uses it as a reference data source, validating circuit behavior before integrating STM32's on-chip ADC.
+      </p>
+
+      <h3 class="font-display text-lg font-semibold text-ink !mt-6">System Integration — Circuit to App</h3>
+      <p>
+        The thesis's main value isn't novelty in any single circuit, but the <strong>complete end-to-end system</strong>: MXene sensor → conditioning → A/D → STM32 firmware → Bluetooth → mobile app. Every layer was implemented. This matches what industry IC engineers need: judgment across the full silicon-to-user chain.
+      </p>
+    </>
+  )}
+</SectionBlock>

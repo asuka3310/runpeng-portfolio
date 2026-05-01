@@ -1,0 +1,27 @@
+---
+import ProjectLayout from '@/layouts/ProjectLayout.astro';
+import GasSensorContent from '@/components/projects/GasSensorContent.astro';
+import { getLocaleFromUrl } from '@/lib/i18n';
+import { getProject } from '@/lib/projects';
+
+const locale = getLocaleFromUrl(Astro.url);
+const project = getProject('flexible-gas-sensor');
+
+const title = 'Flexible Gas Sensor Conditioning Circuit';
+const subtitle = "Bachelor's Thesis · Multi-modal Reconfigurable Back-end · Supervisor: Prof. Zeng Min (SJTU)";
+const tldr = [
+  'Signal conditioning circuit for MXene-based flexible gas sensors. Multi-modal reconfigurable back-end detects two or more of R/I/C/V signal types simultaneously.',
+  'Counter-IC-driven multiplexer + capacitive crosstalk shielding + NI PXI-6289 18-bit A/D acquisition.',
+  'Integrated with STM32 + HC-05 Bluetooth for wireless transmission. End-to-end implementation: sensor → conditioning → ADC → MCU → BLE → mobile app.',
+];
+---
+
+<ProjectLayout
+  project={project}
+  locale={locale}
+  title={title}
+  subtitle={subtitle}
+  tldr={tldr}
+>
+  <GasSensorContent locale={locale} />
+</ProjectLayout>

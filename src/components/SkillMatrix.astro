@@ -12,26 +12,32 @@ const isZh = locale === 'zh-TW';
 
 const groups = [
   {
-    title: dict.skills.groups.mems,
+    title: isZh ? 'Cadence 工具鏈（最熟）' : 'Cadence Toolchain (Strongest)',
+    highlight: true,
+    items: isZh
+      ? ['Virtuoso Schematic Editor', 'Virtuoso Layout Suite', 'Spectre / Spectre RF', 'ADE-L / ADE-XL', 'Calibre DRC / LVS', 'FreePDK 45 nm PDK']
+      : ['Virtuoso Schematic Editor', 'Virtuoso Layout Suite', 'Spectre / Spectre RF', 'ADE-L / ADE-XL', 'Calibre DRC / LVS', 'FreePDK 45 nm PDK'],
+  },
+  {
+    title: isZh ? 'MEMS / 物理建模' : 'MEMS / Physical Modeling',
+    highlight: false,
     items: isZh
       ? ['COMSOL Multiphysics', '有限元分析 (FEA)', '靜電致動模型', '頻率響應分析', '結構共振模擬']
       : ['COMSOL Multiphysics', 'Finite Element Analysis', 'Electrostatic Actuation', 'Frequency Response', 'Resonance Simulation'],
   },
   {
-    title: dict.skills.groups.analog,
+    title: isZh ? '訊號調理 & 系統整合' : 'Signal Conditioning & Systems',
+    highlight: false,
     items: isZh
-      ? ['Cadence Virtuoso', 'Spectre 模擬', 'FreePDK 45 nm', 'Monte Carlo / Corner', 'Folded Cascode', '兩階運放設計']
-      : ['Cadence Virtuoso', 'Spectre Simulator', 'FreePDK 45 nm', 'Monte Carlo / Corner', 'Folded Cascode', 'Two-Stage Op-Amp'],
+      ? ['多模態可重構電路 (R/I/C/V)', '電荷放大電路', 'A/D 採集 (PXI-6289)', 'STM32 韌體', '藍牙無線傳輸 (HC-05)', 'MXene 柔性感測器']
+      : ['Multi-modal Reconfigurable (R/I/C/V)', 'Charge Amplifier', 'A/D Acquisition (PXI-6289)', 'STM32 Firmware', 'Bluetooth Wireless (HC-05)', 'MXene Flexible Sensors'],
   },
   {
-    title: dict.skills.groups.tools,
-    items: ['Verilog', 'MATLAB', 'Python', 'LaTeX', 'Git', 'Linux'],
-  },
-  {
-    title: dict.skills.groups.method,
+    title: isZh ? '類比電路設計方法論' : 'Analog Design Methodology',
+    highlight: false,
     items: isZh
-      ? ['電晶體層級設計', '靜態軟化分析', 'Pull-in 風險評估', 'Wafer 鍵合製程規劃', 'DRIE / PECVD 流程']
-      : ['Transistor-Level Design', 'Static Softening Analysis', 'Pull-in Risk Evaluation', 'Wafer Bonding Process', 'DRIE / PECVD Flow'],
+      ? ['電晶體層級設計', 'Monte Carlo / Corner', 'Folded Cascode', '兩階運算放大器', 'Pull-in 風險評估', 'Wafer 鍵合製程']
+      : ['Transistor-Level Design', 'Monte Carlo / Corner', 'Folded Cascode', 'Two-Stage Op-Amp', 'Pull-in Risk Evaluation', 'Wafer Bonding'],
   },
 ];
 ---
@@ -45,14 +51,16 @@ const groups = [
     <p class="section-subtitle">{dict.skills.subtitle}</p>
   </div>
 
-  <div class="grid gap-5 sm:grid-cols-2 lg:grid-cols-4">
+  <div class="grid gap-5 sm:grid-cols-2 lg:grid-cols-2 lg:gap-6">
     {groups.map((g) => (
-      <div class="reveal rounded-2xl border border-aqua-100 bg-white p-6">
-        <h3 class="font-display text-lg font-semibold text-aqua-700">{g.title}</h3>
-        <ul class="mt-4 space-y-2">
+      <div class={`reveal rounded-2xl border p-6 sm:p-7 ${g.highlight ? 'border-aqua-400 bg-gradient-to-br from-white to-aqua-50 shadow-sm' : 'border-aqua-100 bg-white'}`}>
+        <h3 class={`font-display text-lg font-semibold ${g.highlight ? 'text-aqua-700' : 'text-aqua-700'}`}>
+          {g.title}
+        </h3>
+        <ul class="mt-4 grid gap-2 sm:grid-cols-2">
           {g.items.map((item) => (
             <li class="flex items-start gap-2 text-sm text-ink-muted">
-              <span class="mt-1.5 inline-block h-1 w-1 flex-shrink-0 rounded-full bg-aqua-400"></span>
+              <span class={`mt-1.5 inline-block h-1 w-1 flex-shrink-0 rounded-full ${g.highlight ? 'bg-aqua-500' : 'bg-aqua-400'}`}></span>
               <span class="font-mono text-[13px]">{item}</span>
             </li>
           ))}

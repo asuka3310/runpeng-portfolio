@@ -36,6 +36,11 @@
       "title": "LS-Buffer 運算放大器",
       "subtitle": "電壓位準轉換 ±5V → 1V",
       "summary": "兩階 op-amp 設計達成 78 dB DC gain，GBW、PM、Slew Rate 全項達標。"
+    },
+    "gassensor": {
+      "title": "柔性氣體傳感器調理電路",
+      "subtitle": "本科畢業論文 · 多模態可重構電路",
+      "summary": "為 MXene 二維材料柔性傳感器設計訊號調理電路，提出可同時偵測 R/I/C/V 多模態的可重構後端，整合 STM32 + 藍牙做無線資料採集。"
     }
   },
   "skills": {

@@ -17,7 +17,9 @@ const tkey = project.slug === 'mems-optical-switch'
   ? 'mems'
   : project.slug === 'rail-to-rail-comparator'
     ? 'comparator'
-    : 'opamp';
+    : project.slug === 'ls-buffer-opamp'
+      ? 'opamp'
+      : 'gassensor';
 
 const projDict = (dict.projects as any)[tkey];
 const href = localizedPath(locale, `/projects/${project.slug}`);

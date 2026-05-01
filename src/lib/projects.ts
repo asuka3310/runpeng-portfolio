@@ -3,7 +3,7 @@
 
 import type { Locale } from './i18n';
 
-export type ProjectSlug = 'mems-optical-switch' | 'rail-to-rail-comparator' | 'ls-buffer-opamp';
+export type ProjectSlug = 'mems-optical-switch' | 'rail-to-rail-comparator' | 'ls-buffer-opamp' | 'flexible-gas-sensor';
 
 export interface ProjectMeta {
   slug: ProjectSlug;
@@ -42,6 +42,15 @@ export const projects: ProjectMeta[] = [
     specs: ['FreePDK 45nm', 'Two-stage', 'Cadence', 'Level Shift'],
     bentoSize: 'normal',
     accent: '#5EBDC4',
+  },
+  {
+    slug: 'flexible-gas-sensor',
+    date: '2023/06',
+    course: "Bachelor's Thesis · SJTU",
+    team: 'individual',
+    specs: ['Signal Conditioning', 'MXene', 'STM32 + Bluetooth', 'PXI-6289 ADC'],
+    bentoSize: 'wide',
+    accent: '#3FA89B',
   },
 ];
 
