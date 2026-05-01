@@ -1,0 +1,35 @@
+---
+import { t, type Locale } from '@/lib/i18n';
+import { projects } from '@/lib/projects';
+import ProjectCard from './ProjectCard.astro';
+
+interface Props {
+  locale: Locale;
+}
+
+const { locale } = Astro.props;
+const dict = t(locale);
+---
+
+<section id="projects" class="container-page py-20 sm:py-24">
+  <div class="reveal mb-10 max-w-2xl sm:mb-14">
+    <p class="font-mono text-xs uppercase tracking-widest text-aqua-600">
+      {dict.projects.section}
+    </p>
+    <h2 class="mt-2 section-title">{dict.projects.section}</h2>
+    <p class="section-subtitle">{dict.projects.subtitle}</p>
+  </div>
+
+  <div class="grid gap-5 sm:grid-cols-2 lg:grid-cols-3 lg:grid-rows-2 sm:gap-6">
+    <!-- MEMS: spans 2 cols × 2 rows on lg -->
+    <div class="reveal sm:col-span-2 lg:col-span-2 lg:row-span-2">
+      <ProjectCard project={projects[0]} locale={locale} bigCard={true} />
+    </div>
+    <div class="reveal">
+      <ProjectCard project={projects[1]} locale={locale} />
+    </div>
+    <div class="reveal">
+      <ProjectCard project={projects[2]} locale={locale} />
+    </div>
+  </div>
+</section>

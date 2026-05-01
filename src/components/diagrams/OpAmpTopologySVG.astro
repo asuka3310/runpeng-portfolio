@@ -1,0 +1,87 @@
+---
+// LS-Buffer two-stage op-amp + PMOS switch + level-shift inverter.
+---
+
+<figure class="w-full">
+  <svg viewBox="0 0 720 460" xmlns="http://www.w3.org/2000/svg" class="w-full" role="img" aria-labelledby="opamp-title">
+    <title id="opamp-title">LS-Buffer Two-Stage Op-Amp Topology</title>
+
+    <!-- Stage 1: differential pair -->
+    <g transform="translate(140 220)">
+      <rect x="-70" y="-50" width="140" height="100" fill="#F5FBFC" stroke="#2A9098" stroke-width="1.5" rx="6" />
+      <text x="0" y="-20" text-anchor="middle" font-family="Inter, sans-serif" font-size="13" font-weight="600" fill="#2A9098">Stage 1</text>
+      <text x="0" y="0" text-anchor="middle" font-family="Inter, sans-serif" font-size="12" fill="#0F2A2D">Differential Pair</text>
+      <text x="0" y="20" text-anchor="middle" font-family="JetBrains Mono, monospace" font-size="10" fill="#5C7479">M1, M2 + tail</text>
+
+      <!-- Inputs -->
+      <line x1="-110" y1="-25" x2="-70" y2="-25" stroke="#0F2A2D" stroke-width="1.5" />
+      <line x1="-110" y1="25" x2="-70" y2="25" stroke="#0F2A2D" stroke-width="1.5" />
+      <text x="-115" y="-21" text-anchor="end" font-family="JetBrains Mono, monospace" font-size="11" fill="#0F2A2D">V−</text>
+      <text x="-115" y="29" text-anchor="end" font-family="JetBrains Mono, monospace" font-size="11" fill="#0F2A2D">V+</text>
+    </g>
+
+    <!-- Connection: stage 1 → stage 2 -->
+    <line x1="210" y1="220" x2="280" y2="220" stroke="#5EBDC4" stroke-width="2" />
+    <text x="245" y="210" text-anchor="middle" font-family="JetBrains Mono, monospace" font-size="10" fill="#5C7479">internal node</text>
+
+    <!-- Stage 2: common-source -->
+    <g transform="translate(360 220)">
+      <rect x="-70" y="-50" width="140" height="100" fill="#F5FBFC" stroke="#2A9098" stroke-width="1.5" rx="6" />
+      <text x="0" y="-20" text-anchor="middle" font-family="Inter, sans-serif" font-size="13" font-weight="600" fill="#2A9098">Stage 2</text>
+      <text x="0" y="0" text-anchor="middle" font-family="Inter, sans-serif" font-size="12" fill="#0F2A2D">Common-Source</text>
+      <text x="0" y="20" text-anchor="middle" font-family="JetBrains Mono, monospace" font-size="10" fill="#5C7479">M3 (94 μm)</text>
+    </g>
+
+    <!-- Output to PMOS switch -->
+    <line x1="430" y1="220" x2="500" y2="220" stroke="#3FA89B" stroke-width="2" />
+
+    <!-- PMOS switch -->
+    <g transform="translate(560 220)">
+      <rect x="-30" y="-30" width="60" height="60" fill="white" stroke="#3FA89B" stroke-width="1.5" rx="4" />
+      <text x="0" y="-8" text-anchor="middle" font-family="JetBrains Mono, monospace" font-size="11" fill="#3FA89B" font-weight="600">SW</text>
+      <text x="0" y="8" text-anchor="middle" font-family="JetBrains Mono, monospace" font-size="10" fill="#5C7479">PMOS</text>
+      <!-- gate from inverter -->
+      <line x1="0" y1="-30" x2="0" y2="-90" stroke="#3FA89B" stroke-width="1.5" />
+    </g>
+
+    <!-- Inverter (level shift) -->
+    <g transform="translate(560 100)">
+      <polygon points="-30,-25 30,0 -30,25" fill="white" stroke="#5EBDC4" stroke-width="1.5" />
+      <circle cx="35" cy="0" r="4" fill="white" stroke="#5EBDC4" stroke-width="1.5" />
+      <text x="-10" y="3" text-anchor="middle" font-family="JetBrains Mono, monospace" font-size="10" fill="#0F2A2D">INV</text>
+      <text x="0" y="-40" text-anchor="middle" font-family="Inter, sans-serif" font-size="12" font-weight="600" fill="#5EBDC4">Level-Shift Inverter</text>
+      <text x="0" y="50" text-anchor="middle" font-family="JetBrains Mono, monospace" font-size="10" fill="#5C7479">W_n / W_p = 40</text>
+
+      <!-- VG input -->
+      <line x1="-30" y1="0" x2="-90" y2="0" stroke="#5EBDC4" stroke-width="1.5" />
+      <text x="-95" y="4" text-anchor="end" font-family="JetBrains Mono, monospace" font-size="11" fill="#0F2A2D">V_G</text>
+      <text x="-95" y="20" text-anchor="end" font-family="JetBrains Mono, monospace" font-size="9" fill="#5C7479">0.9 V logic</text>
+    </g>
+
+    <!-- Output -->
+    <line x1="590" y1="220" x2="680" y2="220" stroke="#3FA89B" stroke-width="2" />
+    <text x="690" y="225" font-family="JetBrains Mono, monospace" font-size="12" fill="#0F2A2D" font-weight="600">V_out</text>
+    <text x="690" y="240" font-family="JetBrains Mono, monospace" font-size="10" fill="#5C7479">0.5–1.5 V</text>
+
+    <!-- Feedback path with R_f -->
+    <path d="M 590 220 Q 590 380 360 380 Q 140 380 140 270" stroke="#5C7479" stroke-width="1.2" fill="none" stroke-dasharray="5 3" />
+    <rect x="350" y="370" width="40" height="20" fill="white" stroke="#5C7479" stroke-width="1" />
+    <text x="370" y="384" text-anchor="middle" font-family="JetBrains Mono, monospace" font-size="10" fill="#5C7479">R_f 740 kΩ</text>
+    <text x="370" y="404" text-anchor="middle" font-family="Inter, sans-serif" font-size="11" fill="#5C7479">feedback (level shift to 0.5–1.5 V)</text>
+
+    <!-- Input range label -->
+    <text x="30" y="220" font-family="JetBrains Mono, monospace" font-size="11" fill="#0F2A2D" font-weight="600">−5 V ~ +5 V</text>
+    <text x="30" y="234" font-family="Inter, sans-serif" font-size="10" fill="#5C7479">input swing</text>
+
+    <!-- Performance summary -->
+    <g transform="translate(40 30)">
+      <rect x="0" y="0" width="220" height="60" fill="white" stroke="#D6ECEE" rx="6" />
+      <text x="10" y="20" font-family="Inter, sans-serif" font-size="11" font-weight="600" fill="#2A9098">Op-Amp Spec (achieved)</text>
+      <text x="10" y="38" font-family="JetBrains Mono, monospace" font-size="10" fill="#0F2A2D">DC gain = 77.98 dB</text>
+      <text x="10" y="52" font-family="JetBrains Mono, monospace" font-size="10" fill="#0F2A2D">GBW &gt; 1 MHz · PM &gt; 60°</text>
+    </g>
+  </svg>
+  <figcaption class="mt-3 font-mono text-xs text-ink-soft">
+    Fig. — Two-stage op-amp inverting amplifier with PMOS gain-control switch driven by a level-shift inverter (gate logic 0.9 V → 3.3 V). Compresses input ±5 V to output 0.5–1.5 V.
+  </figcaption>
+</figure>

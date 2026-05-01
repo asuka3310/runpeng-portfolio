@@ -1,0 +1,159 @@
+---
+import SectionBlock from '@/components/SectionBlock.astro';
+import StatCallout from '@/components/StatCallout.astro';
+import ComparatorTopologySVG from '@/components/diagrams/ComparatorTopologySVG.astro';
+import { type Locale } from '@/lib/i18n';
+
+interface Props {
+  locale: Locale;
+}
+const { locale } = Astro.props;
+const isZh = locale === 'zh-TW';
+---
+
+<SectionBlock
+  title={isZh ? '問題' : 'Problem'}
+  eyebrow="01 / Problem"
+>
+  {isZh ? (
+    <>
+      <p>
+        混訊電路中，<strong>差動比較器</strong>用來精確比較兩個類比訊號。在 0.9 V 低電壓電源下，傳統差動對受限於輸入共模範圍（CMR），無法在<strong>整個 rail-to-rail 範圍內</strong>正常工作。
+      </p>
+      <p>
+        挑戰：在 FreePDK 45 nm 製程、0.9 V 電源下，設計一個輸入差為 0.1 V 即能正確判斷、輸入失調 &lt; 5 mV 的差動比較器。
+      </p>
+    </>
+  ) : (
+    <>
+      <p>
+        In mixed-signal circuits, <strong>differential comparators</strong> precisely compare analog signals. At 0.9 V supply, conventional differential pairs are constrained by input common-mode range (CMR) and cannot operate <strong>across the full rail-to-rail input range</strong>.
+      </p>
+      <p>
+        Challenge: design a differential comparator on FreePDK 45 nm CMOS at 0.9 V that resolves a 0.1 V input difference with input-referred offset &lt; 5 mV.
+      </p>
+    </>
+  )}
+</SectionBlock>
+
+<SectionBlock
+  title={isZh ? '解決方案' : 'Solution'}
+  eyebrow="02 / Solution"
+>
+  {isZh ? (
+    <>
+      <p>
+        採用<strong>互補差動對 + Folded Cascode</strong>拓墣：
+      </p>
+      <ul class="ml-5 list-disc space-y-2">
+        <li><strong>P 型差動對</strong>覆蓋低端輸入、<strong>N 型差動對</strong>覆蓋高端輸入，兩者疊加實現 rail-to-rail。</li>
+        <li><strong>Folded Cascode</strong>負責在中段把兩個差動對的電流加總/相減，並把輸出阻抗提高。</li>
+        <li>採用<strong>弱反型偏壓 + 電流溢流控制（current spillover control）</strong>，使整個輸入範圍內 g_m 維持常數。</li>
+        <li>所有電晶體使用<strong>低 V_th 元件</strong>（V_thn = 0.30 V，V_thp = -0.29 V），降低共模對應的電壓 margin 需求。</li>
+        <li>長通道（L = 5 μm）降低短通道效應與隨機失配。</li>
+      </ul>
+    </>
+  ) : (
+    <>
+      <p>Adopted a <strong>complementary differential pair + folded cascode</strong> topology:</p>
+      <ul class="ml-5 list-disc space-y-2">
+        <li><strong>P-type differential pair</strong> covers the low-end input range; <strong>N-type pair</strong> covers the high-end. Together they achieve rail-to-rail.</li>
+        <li><strong>Folded cascode</strong> sums/subtracts currents from the two pairs and boosts output impedance.</li>
+        <li><strong>Weak-inversion biasing + current spillover control</strong> keeps g_m constant across the full input range.</li>
+        <li>All transistors use <strong>low V_th devices</strong> (V_thn = 0.30 V, V_thp = -0.29 V) to relax common-mode voltage margins.</li>
+        <li>Long channel length (L = 5 μm) reduces short-channel effects and random mismatch.</li>
+      </ul>
+    </>
+  )}
+
+  <div class="!mt-8 rounded-2xl border border-aqua-100 bg-white p-4 sm:p-6">
+    <ComparatorTopologySVG />
+  </div>
+</SectionBlock>
+
+<SectionBlock
+  title={isZh ? '關鍵成果' : 'Key Results'}
+  eyebrow="03 / Results"
+>
+  <div class="!mt-4 grid grid-cols-2 gap-3 sm:grid-cols-4 sm:gap-4">
+    <StatCallout value="26.6" unit="ns" label={isZh ? '最差比較時間' : 'Worst-case delay'} />
+    <StatCallout value="8.9" unit="mV" label={isZh ? '最差輸入失調' : 'Worst-case offset'} />
+    <StatCallout value="0.18" unit="mW" label={isZh ? '功耗' : 'Power consumption'} />
+    <StatCallout value="0.9" unit="V" label={isZh ? '電源電壓' : 'Supply voltage'} />
+  </div>
+
+  {isZh ? (
+    <>
+      <p class="!mt-6">
+        驗證方法：
+      </p>
+      <ul class="ml-5 list-disc space-y-2">
+        <li><strong>Corner 分析</strong>：跨製程角檢查比較時間，最差案例在 V_AP=0.35–0.55 V、V_BP=0.45 V、V_AN=V_BN=0.9 V 時為 19.8 ns。</li>
+        <li><strong>Monte Carlo 模擬</strong>：30 次取樣，最差比較時間 26.6 ns、最差失調 8.9 mV。</li>
+        <li><strong>典型功耗</strong>：200 kHz 大訊號方波（0–0.9 V）時 0.15 mW；小訊號方波（0.35–0.45 V）時 0.18 mW。</li>
+      </ul>
+      <p>
+        誠實說明：在高輸入電壓 corner 下，offset 仍偶爾超過 5 mV 規格（30 次中有 5 次 &gt; 5 mV）。下一步將透過<strong>更嚴格的電晶體匹配</strong>或<strong>chopper 拓墣</strong>改善。
+      </p>
+    </>
+  ) : (
+    <>
+      <p class="!mt-6">Verification methods:</p>
+      <ul class="ml-5 list-disc space-y-2">
+        <li><strong>Corner analysis</strong>: across all process corners; worst-case is 19.8 ns at V_AP=0.35–0.55 V, V_BP=0.45 V, V_AN=V_BN=0.9 V.</li>
+        <li><strong>Monte Carlo</strong>: 30 samples — worst-case delay 26.6 ns, worst-case offset 8.9 mV.</li>
+        <li><strong>Typical power</strong>: 0.15 mW at 200 kHz large-amplitude square wave (0–0.9 V); 0.18 mW at small-amplitude square wave (0.35–0.45 V).</li>
+      </ul>
+      <p>
+        Honest assessment: under high-input-voltage corners, offset occasionally exceeded the 5 mV spec (5 of 30 samples). Next iteration will improve via <strong>tighter transistor matching</strong> or a <strong>chopper topology</strong>.
+      </p>
+    </>
+  )}
+</SectionBlock>
+
+<SectionBlock
+  title={isZh ? '技術細節' : 'Technical Deep-Dive'}
+  eyebrow="04 / Deep-Dive"
+>
+  {isZh ? (
+    <>
+      <h3 class="font-display text-lg font-semibold text-ink !mt-2">尺寸決定</h3>
+      <ul class="ml-5 list-disc space-y-1">
+        <li>NMOS 電流源：W_n = 23 μm、L_n = 5 μm</li>
+        <li>PMOS 電流源：W_p = 55 μm、L_p = 5 μm</li>
+        <li>W_p / W_n = 2.4，配合 μ_n·C_ox / μ_p·C_ox = 2.4 達成相同 drain 電流</li>
+        <li>每個差動對 22 μA、|V_eff| = 150 mV</li>
+      </ul>
+
+      <h3 class="font-display text-lg font-semibold text-ink !mt-6">輸入共模範圍延伸</h3>
+      <p>
+        N 型差動對的 CMR 可超出 V_DD（V_GSN − V_satN − V_satP）；P 型差動對的 CMR 可低於 V_SS（V_GSP − V_satP − V_satN）。兩者疊加後即可覆蓋整個 rail-to-rail 範圍。
+      </p>
+
+      <h3 class="font-display text-lg font-semibold text-ink !mt-6">分工</h3>
+      <p>
+        三人組（z5261948 / z5463468 / z5570600）。我負責<strong>電流源 / sink 尺寸計算</strong>、<strong>Monte Carlo 模擬腳本</strong>與<strong>失調驗證流程</strong>。
+      </p>
+    </>
+  ) : (
+    <>
+      <h3 class="font-display text-lg font-semibold text-ink !mt-2">Sizing</h3>
+      <ul class="ml-5 list-disc space-y-1">
+        <li>NMOS current source: W_n = 23 μm, L_n = 5 μm</li>
+        <li>PMOS current source: W_p = 55 μm, L_p = 5 μm</li>
+        <li>W_p / W_n = 2.4, matching μ_n·C_ox / μ_p·C_ox = 2.4 for equal drain current</li>
+        <li>Bias: 22 μA per differential pair, |V_eff| = 150 mV</li>
+      </ul>
+
+      <h3 class="font-display text-lg font-semibold text-ink !mt-6">Common-Mode Range Extension</h3>
+      <p>
+        N-pair CMR can exceed V_DD by V_GSN − V_satN − V_satP; P-pair CMR can fall below V_SS by V_GSP − V_satP − V_satN. The complementary pair achieves full rail-to-rail.
+      </p>
+
+      <h3 class="font-display text-lg font-semibold text-ink !mt-6">Team Contribution</h3>
+      <p>
+        Team of three (z5261948 / z5463468 / z5570600). My contributions: <strong>current source/sink sizing</strong>, <strong>Monte Carlo simulation scripts</strong>, and <strong>offset verification methodology</strong>.
+      </p>
+    </>
+  )}
+</SectionBlock>

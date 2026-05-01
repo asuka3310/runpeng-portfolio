@@ -1,0 +1,23 @@
+---
+import { t, type Locale } from '@/lib/i18n';
+
+interface Props {
+  locale: Locale;
+}
+
+const { locale } = Astro.props;
+const dict = t(locale);
+const year = new Date().getFullYear();
+---
+
+<footer class="border-t border-aqua-100 bg-white no-print">
+  <div class="container-page flex flex-col items-center justify-between gap-3 py-8 sm:flex-row">
+    <p class="font-mono text-xs text-ink-soft">
+      © {year} Runpeng Ma · {dict.footer.copyright}
+    </p>
+    <div class="flex items-center gap-2 font-mono text-xs text-ink-soft">
+      <span class="inline-block h-1.5 w-1.5 rounded-full bg-aqua-400"></span>
+      <span>runpeng.autumnsnow.work</span>
+    </div>
+  </div>
+</footer>

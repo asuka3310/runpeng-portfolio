@@ -1,0 +1,231 @@
+---
+import SectionBlock from '@/components/SectionBlock.astro';
+import StatCallout from '@/components/StatCallout.astro';
+import MemsStackSVG from '@/components/diagrams/MemsStackSVG.astro';
+import MemsVThetaChart from '@/components/diagrams/MemsVThetaChart.astro';
+import { type Locale } from '@/lib/i18n';
+
+interface Props {
+  locale: Locale;
+}
+const { locale } = Astro.props;
+const isZh = locale === 'zh-TW';
+---
+
+<SectionBlock
+  title={isZh ? '問題' : 'Problem'}
+  eyebrow="01 / Problem"
+>
+  {isZh ? (
+    <>
+      <p>
+        光通訊系統需要更小、更快、更省電的光開關。傳統 MEMS 光開關採用<strong>扭轉樑（torsion）</strong>連接微鏡與基板，但兩個問題限制了它的應用：
+      </p>
+      <ul class="ml-5 list-disc space-y-2">
+        <li>驅動電壓需要 20–80 V，相對偏高。</li>
+        <li>旋轉角度通常 &lt; 3°，無法支援多通道光路切換。</li>
+      </ul>
+      <p>
+        靜電軟化效應（electrostatic softening）也會在高電壓區域導致 pull-in 不穩定，使得設計餘裕變窄。
+      </p>
+    </>
+  ) : (
+    <>
+      <p>
+        Optical communication systems demand smaller, faster, lower-power optical switches. Traditional MEMS optical switches connect the micromirror to the substrate via <strong>torsion beams</strong>, which constrains performance:
+      </p>
+      <ul class="ml-5 list-disc space-y-2">
+        <li>Driving voltage typically 20–80 V — relatively high.</li>
+        <li>Rotation angle limited to &lt; 3°, insufficient for multi-port switching.</li>
+      </ul>
+      <p>
+        Electrostatic softening also causes pull-in instability at high voltages, narrowing the safe operating margin.
+      </p>
+    </>
+  )}
+</SectionBlock>
+
+<SectionBlock
+  title={isZh ? '解決方案' : 'Solution'}
+  eyebrow="02 / Solution"
+>
+  {isZh ? (
+    <>
+      <p>
+        我採用三項關鍵設計改進：
+      </p>
+      <ol class="ml-5 list-decimal space-y-3">
+        <li>
+          <strong>SiO₂ 蛇形彈簧取代扭轉樑</strong>。每根彈簧由 3 段 ~66.7 μm 的 SiO₂ 段組成（兩段純扭轉 + 一段平面彎曲），4 根對稱配置。在相同尺寸下旋轉角度顯著高於傳統 torsion。
+        </li>
+        <li>
+          <strong>分裂式底電極（split bottom electrode）差動驅動</strong>。底電極沿旋轉軸切成兩半，與頂電極形成差動對；主動側產生吸引扭矩，被動側電壓差為零。等效電壓差加倍，<strong>淨扭矩變為四倍</strong>。
+        </li>
+        <li>
+          <strong>長微鏡（2000 × 500 μm²）</strong>。即使旋轉角度小，長鏡面也能覆蓋多條光路，達成多端口切換。
+        </li>
+      </ol>
+      <p>
+        在 COMSOL Multiphysics 建立完整的<strong>電-機耦合模型</strong>：靜電致動模型、容值模型、機械彈簧模型、靜態平衡與 pull-in 分析、頻率響應模型。
+      </p>
+    </>
+  ) : (
+    <>
+      <p>I introduced three key design improvements:</p>
+      <ol class="ml-5 list-decimal space-y-3">
+        <li>
+          <strong>SiO₂ serpentine springs replace torsion beams.</strong> Each spring comprises three ~66.7 μm SiO₂ segments (two pure torsion + one in-plane bending), four arranged symmetrically. At identical dimensions, rotation angle is significantly higher than torsion.
+        </li>
+        <li>
+          <strong>Split-bottom-electrode differential drive.</strong> The bottom electrode is divided along the rotation axis, forming a differential pair with the top electrodes. The active side generates attractive torque while the passive side has zero potential difference — effective voltage doubles, <strong>net torque quadruples</strong>.
+        </li>
+        <li>
+          <strong>Long mirror (2000 × 500 μm²).</strong> Small rotation still covers multiple optical paths, enabling multi-port switching.
+        </li>
+      </ol>
+      <p>
+        Built a complete <strong>electromechanical coupled model</strong> in COMSOL Multiphysics: electrostatic actuation, capacitance, mechanical spring, static equilibrium and pull-in analysis, and frequency response.
+      </p>
+    </>
+  )}
+
+  <div class="!mt-8 rounded-2xl border border-aqua-100 bg-white p-4 sm:p-6">
+    <MemsStackSVG />
+  </div>
+</SectionBlock>
+
+<SectionBlock
+  title={isZh ? '關鍵成果' : 'Key Results'}
+  eyebrow="03 / Results"
+>
+  <div class="!mt-4 grid grid-cols-2 gap-3 sm:grid-cols-4 sm:gap-4">
+    <StatCallout value="99" unit="%" label={isZh ? '理論吻合度' : 'Theory match'} />
+    <StatCallout value="2.35" unit="°" label={isZh ? 'Config A 最大角' : 'Config A max angle'} />
+    <StatCallout value="4×" label={isZh ? '扭矩放大' : 'Torque gain'} />
+    <StatCallout value="1.77" unit="kHz" label={isZh ? '一階共振頻率' : 'Primary resonance'} />
+  </div>
+
+  <div class="!mt-8 rounded-2xl border border-aqua-100 bg-white p-4 sm:p-6">
+    <MemsVThetaChart />
+  </div>
+
+  {isZh ? (
+    <>
+      <p class="!mt-6">
+        在兩個設計組態下完成 COMSOL FEA 模擬：
+      </p>
+      <ul class="ml-5 list-disc space-y-2">
+        <li><strong>Config A</strong>（20–50 V，gap 44 μm，鏡片厚 5 μm）— 最大旋轉角 2.35°。</li>
+        <li><strong>Config B</strong>（50–80 V，gap 32 μm，鏡片厚 8 μm）— 高壓區更穩定。</li>
+        <li>V-θ 曲線冪律擬合：n ≈ 1.99（A）、n ≈ 0.98（B）；RMS 誤差 &lt; 0.004°。</li>
+        <li>動態頻率響應：理論預測 1769 Hz，模擬量測 1.7–2 kHz，<strong>吻合度 99%</strong>。</li>
+        <li>靜電軟化率達 48.6%（50 V），實際操作建議控制在 pull-in 電壓的 60–70%。</li>
+      </ul>
+    </>
+  ) : (
+    <>
+      <p class="!mt-6">Completed COMSOL FEA simulations across two configurations:</p>
+      <ul class="ml-5 list-disc space-y-2">
+        <li><strong>Config A</strong> (20–50 V, gap 44 μm, mirror thickness 5 μm) — max rotation 2.35°.</li>
+        <li><strong>Config B</strong> (50–80 V, gap 32 μm, mirror thickness 8 μm) — more stable in high-V region.</li>
+        <li>V-θ power-law fit: n ≈ 1.99 (A), n ≈ 0.98 (B); RMS error &lt; 0.004°.</li>
+        <li>Frequency response: predicted 1769 Hz, measured 1.7–2 kHz — <strong>99% agreement</strong>.</li>
+        <li>Electrostatic softening reaches 48.6% at 50 V; recommend operating at 60–70% of pull-in voltage.</li>
+      </ul>
+    </>
+  )}
+</SectionBlock>
+
+<SectionBlock
+  title={isZh ? '技術細節' : 'Technical Deep-Dive'}
+  eyebrow="04 / Deep-Dive"
+>
+  {isZh ? (
+    <>
+      <h3 class="font-display text-lg font-semibold text-ink !mt-2">數學模型</h3>
+      <p>
+        建立完整電-機耦合模型，包含五個關鍵公式群：
+      </p>
+      <ul class="ml-5 list-disc space-y-1">
+        <li>容值模型：<code class="font-mono text-aqua-700">C(θ) = ε₀L/θ · ln[(g₀-x₂θ)/(g₀-x₁θ)]</code></li>
+        <li>靜電扭矩：能量法導出 M_e = 4V² · ∫ε₀L_e·x/(g₀-xθ)² dx</li>
+        <li>蛇形彈簧扭轉勁度：<code class="font-mono text-aqua-700">J_t = (w³t/3)(1 - 0.63 w/t)</code> 含 Saint-Venant 公式</li>
+        <li>靜態平衡：k_θ·θ = M_e(θ,V)，pull-in 條件 k_θ &gt; ∂M_e/∂θ</li>
+        <li>有效自然頻率：<code class="font-mono text-aqua-700">f_n = (1/2π)√(k_eff/J)</code></li>
+      </ul>
+
+      <h3 class="font-display text-lg font-semibold text-ink !mt-6">理論與模擬的差異</h3>
+      <p>
+        FEA 模擬量測勁度比解析模型低 2–5 倍，主要源自三個機制：
+      </p>
+      <ul class="ml-5 list-disc space-y-1">
+        <li><strong>翹曲效應（Warping）</strong>：薄矩形截面扭轉樑無法滿足純扭轉假設。</li>
+        <li><strong>蛇形連接處應力集中</strong>：彎曲段提供額外柔度。</li>
+        <li><strong>扭轉-彎曲耦合</strong>：實際變形非獨立模態。</li>
+      </ul>
+      <p>
+        Config B 彈簧較寬，翹曲效應較小（差異 2.2×），驗證了上述機制。
+      </p>
+
+      <h3 class="font-display text-lg font-semibold text-ink !mt-6">製程規劃</h3>
+      <p>
+        提出兩晶圓鍵合（wafer bonding）製程：
+      </p>
+      <ul class="ml-5 list-disc space-y-1">
+        <li>Wafer 1：熱氧化 + 金鍍底電極 + DRIE 蝕刻 44/32 μm 氣隙。</li>
+        <li>Wafer 2：PECVD SiO₂ 10 μm 為彈簧與微鏡 + RIE/DRIE 圖案化 + Pt 濺鍍頂電極。</li>
+        <li>關鍵製程風險：PECVD 殘餘應力導致彈簧釋放後彎曲（需退火）、微鏡釋放黏附（需 CO₂ 超臨界乾燥）。</li>
+      </ul>
+    </>
+  ) : (
+    <>
+      <h3 class="font-display text-lg font-semibold text-ink !mt-2">Mathematical Model</h3>
+      <p>Complete electromechanical model with five key equation groups:</p>
+      <ul class="ml-5 list-disc space-y-1">
+        <li>Capacitance: <code class="font-mono text-aqua-700">C(θ) = ε₀L/θ · ln[(g₀-x₂θ)/(g₀-x₁θ)]</code></li>
+        <li>Electrostatic torque via energy method: <code class="font-mono text-aqua-700">M_e = 4V² · ∫ε₀L_e·x/(g₀-xθ)² dx</code></li>
+        <li>Serpentine spring torsional stiffness: <code class="font-mono text-aqua-700">J_t = (w³t/3)(1 - 0.63 w/t)</code> (Saint-Venant)</li>
+        <li>Static equilibrium: <code class="font-mono text-aqua-700">k_θ·θ = M_e(θ,V)</code>; pull-in when <code class="font-mono text-aqua-700">k_θ &gt; ∂M_e/∂θ</code></li>
+        <li>Effective natural frequency: <code class="font-mono text-aqua-700">f_n = (1/2π)√(k_eff/J)</code></li>
+      </ul>
+
+      <h3 class="font-display text-lg font-semibold text-ink !mt-6">Theory vs Simulation Discrepancy</h3>
+      <p>FEA-extracted stiffness is 2–5× lower than the analytical model. Three contributing mechanisms:</p>
+      <ul class="ml-5 list-disc space-y-1">
+        <li><strong>Warping</strong>: thin-rectangular torsion breaks pure-torsion assumption.</li>
+        <li><strong>Stress concentration at serpentine joints</strong>: extra compliance not captured by analytical model.</li>
+        <li><strong>Torsion-bending coupling</strong>: deformation modes are not independent.</li>
+      </ul>
+      <p>
+        Config B has wider springs (less warping, 2.2× discrepancy vs A's 5×), confirming the mechanism.
+      </p>
+
+      <h3 class="font-display text-lg font-semibold text-ink !mt-6">Fabrication Plan</h3>
+      <p>Two-wafer bonding process:</p>
+      <ul class="ml-5 list-disc space-y-1">
+        <li>Wafer 1: thermal oxidation + Au sputtering for bottom electrode + DRIE 44/32 μm air gap.</li>
+        <li>Wafer 2: PECVD SiO₂ 10 μm for spring/mirror + RIE/DRIE patterning + Pt sputtering for top electrode.</li>
+        <li>Key process risks: PECVD residual stress (needs annealing); release stiction (needs supercritical CO₂ drying).</li>
+      </ul>
+    </>
+  )}
+</SectionBlock>
+
+<SectionBlock
+  title={isZh ? '未來工作' : 'Future Work'}
+  eyebrow="05 / Next"
+>
+  {isZh ? (
+    <ul class="ml-5 list-disc space-y-2">
+      <li>進行 COMSOL eigenfrequency 研究，釐清次共振峰（1259 Hz、2512 Hz）的物理來源。</li>
+      <li>實際製程驗證，特別是 PECVD 殘餘應力與晶圓鍵合對齊精度。</li>
+      <li>補上光-機耦合驗證：插入損耗、串音、回損、切換時間。</li>
+    </ul>
+  ) : (
+    <ul class="ml-5 list-disc space-y-2">
+      <li>Run COMSOL eigenfrequency studies to identify the physical origin of secondary resonance peaks (1259 Hz, 2512 Hz).</li>
+      <li>Fabricate and verify, paying special attention to PECVD residual stress and wafer bonding alignment.</li>
+      <li>Add optical-mechanical coupling verification: insertion loss, crosstalk, return loss, switching time.</li>
+    </ul>
+  )}
+</SectionBlock>

@@ -1,0 +1,27 @@
+---
+import ProjectLayout from '@/layouts/ProjectLayout.astro';
+import OpAmpContent from '@/components/projects/OpAmpContent.astro';
+import { getLocaleFromUrl } from '@/lib/i18n';
+import { getProject } from '@/lib/projects';
+
+const locale = getLocaleFromUrl(Astro.url);
+const project = getProject('ls-buffer-opamp');
+
+const title = 'LS-Buffer 運算放大器';
+const subtitle = '電壓位準轉換 ±5V → 1V · ELEC4602 兩人組';
+const tldr = [
+  '兩階運算放大器設計：手算規格 80 dB DC gain，模擬量得 78 dB，GBW、PM、SR 全項達標。',
+  '加入 PMOS 開關 + 位準位移反相器，把 0.9 V 邏輯訊號轉成 3.3 V 驅動電壓。',
+  '透過反相放大器架構把外部 ±5 V 訊號壓縮並平移到晶片內部 0.5–1.5 V 範圍。',
+];
+---
+
+<ProjectLayout
+  project={project}
+  locale={locale}
+  title={title}
+  subtitle={subtitle}
+  tldr={tldr}
+>
+  <OpAmpContent locale={locale} />
+</ProjectLayout>

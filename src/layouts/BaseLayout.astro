@@ -1,0 +1,55 @@
+---
+import '@/styles/global.css';
+import Nav from '@/components/Nav.astro';
+import Footer from '@/components/Footer.astro';
+import { getLocaleFromUrl, t } from '@/lib/i18n';
+
+interface Props {
+  title?: string;
+  description?: string;
+}
+
+const { title, description } = Astro.props;
+const locale = getLocaleFromUrl(Astro.url);
+const dict = t(locale);
+
+const pageTitle = title ?? `Runpeng Ma · ${dict.hero.tagline}`;
+const pageDesc = description ?? dict.hero.intro;
+const htmlLang = locale === 'en' ? 'en' : 'zh-Hant-TW';
+---
+
+<!doctype html>
+<html lang={htmlLang}>
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+    <meta name="theme-color" content="#5EBDC4" />
+    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+    <title>{pageTitle}</title>
+    <meta name="description" content={pageDesc} />
+    <meta name="robots" content="noindex, nofollow" />
+  </head>
+  <body class="min-h-screen flex flex-col">
+    <Nav locale={locale} pathname={Astro.url.pathname} />
+    <main class="flex-1">
+      <slot />
+    </main>
+    <Footer locale={locale} />
+
+    <script>
+      // Reveal-on-scroll: add .is-visible to elements with .reveal once in view
+      const observer = new IntersectionObserver(
+        (entries) => {
+          for (const entry of entries) {
+            if (entry.isIntersecting) {
+              entry.target.classList.add('is-visible');
+              observer.unobserve(entry.target);
+            }
+          }
+        },
+        { threshold: 0.12, rootMargin: '0px 0px -40px 0px' }
+      );
+      document.querySelectorAll('.reveal').forEach((el) => observer.observe(el));
+    </script>
+  </body>
+</html>

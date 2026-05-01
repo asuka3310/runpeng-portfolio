@@ -1,0 +1,27 @@
+---
+import ProjectLayout from '@/layouts/ProjectLayout.astro';
+import ComparatorContent from '@/components/projects/ComparatorContent.astro';
+import { getLocaleFromUrl } from '@/lib/i18n';
+import { getProject } from '@/lib/projects';
+
+const locale = getLocaleFromUrl(Astro.url);
+const project = getProject('rail-to-rail-comparator');
+
+const title = 'Rail-to-Rail 差動比較器';
+const subtitle = '0.9V FreePDK 45nm CMOS · ELEC9701 三人組';
+const tldr = [
+  '互補 PMOS / NMOS 差動對 + Folded Cascode 拓墣，達成 0.9 V 電源下的 rail-to-rail 輸入。',
+  '弱反型偏壓 + 電流溢流控制，使整個輸入範圍內 g_m 維持常數。',
+  'Monte Carlo 30 次取樣下：最差比較時間 26.6 ns、最差失調 8.9 mV、典型功耗 0.18 mW。',
+];
+---
+
+<ProjectLayout
+  project={project}
+  locale={locale}
+  title={title}
+  subtitle={subtitle}
+  tldr={tldr}
+>
+  <ComparatorContent locale={locale} />
+</ProjectLayout>

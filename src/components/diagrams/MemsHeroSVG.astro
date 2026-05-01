@@ -1,0 +1,124 @@
+---
+// Animated SVG line drawing of the MEMS micromirror — draws itself once on load.
+// Used as the Hero background art.
+---
+
+<svg
+  viewBox="0 0 600 400"
+  xmlns="http://www.w3.org/2000/svg"
+  fill="none"
+  class="h-full w-full"
+  aria-hidden="true"
+>
+  <defs>
+    <linearGradient id="aqua-fade" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#7DD8DE" stop-opacity="0.9" />
+      <stop offset="100%" stop-color="#5EBDC4" stop-opacity="0.6" />
+    </linearGradient>
+    <linearGradient id="mirror-grad" x1="0%" y1="0%" x2="100%" y2="0%">
+      <stop offset="0%" stop-color="#A8E2E6" />
+      <stop offset="50%" stop-color="#FFFFFF" />
+      <stop offset="100%" stop-color="#A8E2E6" />
+    </linearGradient>
+  </defs>
+
+  <!-- Substrate base lines -->
+  <g stroke="url(#aqua-fade)" stroke-width="1.2" stroke-linecap="round">
+    <path d="M40 320 L560 320" class="anim-line" style="--delay:0s" />
+    <path d="M60 340 L540 340" class="anim-line" style="--delay:0.15s" />
+    <path d="M80 360 L520 360" class="anim-line" style="--delay:0.3s" />
+  </g>
+
+  <!-- Bottom electrodes (split) -->
+  <g stroke="#2A9098" stroke-width="2" stroke-linecap="round">
+    <path d="M120 280 L280 280" class="anim-line" style="--delay:0.4s" />
+    <path d="M320 280 L480 280" class="anim-line" style="--delay:0.5s" />
+  </g>
+
+  <!-- Serpentine springs (left + right) -->
+  <g stroke="#5EBDC4" stroke-width="1.8" fill="none" stroke-linecap="round" stroke-linejoin="round">
+    <path
+      d="M120 200 L120 230 L100 230 L100 250 L120 250 L120 270"
+      class="anim-line"
+      style="--delay:0.6s"
+    />
+    <path
+      d="M480 200 L480 230 L500 230 L500 250 L480 250 L480 270"
+      class="anim-line"
+      style="--delay:0.7s"
+    />
+  </g>
+
+  <!-- Mirror -->
+  <rect
+    x="120"
+    y="180"
+    width="360"
+    height="20"
+    rx="2"
+    fill="url(#mirror-grad)"
+    stroke="#2A9098"
+    stroke-width="1.5"
+    class="anim-fade"
+    style="--delay:0.9s; transform-origin: 300px 190px;"
+  />
+
+  <!-- Top electrodes -->
+  <g fill="#2A9098" class="anim-fade" style="--delay:1.05s">
+    <rect x="160" y="170" width="60" height="6" rx="1" />
+    <rect x="240" y="170" width="60" height="6" rx="1" />
+    <rect x="320" y="170" width="60" height="6" rx="1" />
+    <rect x="400" y="170" width="60" height="6" rx="1" />
+  </g>
+
+  <!-- Light beam (incoming → reflecting) -->
+  <g
+    stroke="#3FA89B"
+    stroke-width="1.5"
+    stroke-dasharray="4 3"
+    fill="none"
+    class="anim-fade"
+    style="--delay:1.2s"
+  >
+    <path d="M40 80 L300 190" />
+    <path d="M300 190 L560 80" />
+  </g>
+
+  <!-- Labels -->
+  <g
+    font-family="JetBrains Mono, monospace"
+    font-size="10"
+    fill="#5C7479"
+    class="anim-fade"
+    style="--delay:1.35s"
+  >
+    <text x="50" y="76">λ_in</text>
+    <text x="540" y="76" text-anchor="end">λ_out</text>
+    <text x="300" y="395" text-anchor="middle">P-substrate</text>
+    <text x="300" y="220" text-anchor="middle" fill="#2A9098" font-weight="600">SiO₂ mirror</text>
+  </g>
+
+  <style>
+    .anim-line {
+      stroke-dasharray: 600;
+      stroke-dashoffset: 600;
+      animation: drawHero 1.6s ease-out forwards;
+      animation-delay: var(--delay, 0s);
+    }
+    .anim-fade {
+      opacity: 0;
+      animation: fadeHero 0.6s ease-out forwards;
+      animation-delay: var(--delay, 0s);
+    }
+    @keyframes drawHero {
+      to { stroke-dashoffset: 0; }
+    }
+    @keyframes fadeHero {
+      to { opacity: 1; }
+    }
+    @media (prefers-reduced-motion: reduce) {
+      .anim-line { animation: none; stroke-dashoffset: 0; }
+      .anim-fade { animation: none; opacity: 1; }
+    }
+  </style>
+</svg>

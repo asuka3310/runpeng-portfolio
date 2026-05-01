@@ -1,0 +1,89 @@
+{
+  "nav": {
+    "projects": "專案",
+    "about": "關於",
+    "resume": "履歷",
+    "contact": "聯絡"
+  },
+  "hero": {
+    "name": "馬潤芃",
+    "nameEn": "Runpeng Ma",
+    "tagline": "類比 IC 與 MEMS 工程師",
+    "taglineEn": "Analog IC & MEMS Engineer",
+    "intro": "三個橫跨 MEMS 物理建模與 45nm CMOS 類比 IC 的專案，從 COMSOL 模擬到電晶體層級設計。",
+    "cta1": "查看專案",
+    "cta2": "下載履歷",
+    "cta3": "LinkedIn"
+  },
+  "projects": {
+    "section": "精選專案",
+    "subtitle": "三個從理論到模擬的完整工程作品",
+    "viewDetails": "查看詳情",
+    "individual": "個人專案",
+    "team2": "兩人組",
+    "team3": "三人組",
+    "mems": {
+      "title": "MEMS 光開關",
+      "subtitle": "電子驅動光開關 · 碩士論文",
+      "summary": "用 SiO₂ 蛇形彈簧取代傳統 torsion，旋轉角度提升 4×；COMSOL 靜態與動態雙模擬，理論吻合度 99%。"
+    },
+    "comparator": {
+      "title": "Rail-to-Rail 差動比較器",
+      "subtitle": "0.9V FreePDK 45nm CMOS",
+      "summary": "互補差動對 + Folded Cascode 拓墣，Monte Carlo 與 Corner 分析下達成 26.6 ns 比較速度。"
+    },
+    "opamp": {
+      "title": "LS-Buffer 運算放大器",
+      "subtitle": "電壓位準轉換 ±5V → 1V",
+      "summary": "兩階 op-amp 設計達成 78 dB DC gain，GBW、PM、Slew Rate 全項達標。"
+    }
+  },
+  "skills": {
+    "section": "技術能力",
+    "subtitle": "從元件物理到電晶體層級",
+    "groups": {
+      "mems": "MEMS / 物理建模",
+      "analog": "類比 IC 設計",
+      "tools": "工具與語言",
+      "method": "設計方法論"
+    }
+  },
+  "education": {
+    "section": "學歷",
+    "unsw": {
+      "school": "UNSW Sydney",
+      "degree": "M.Eng (Electrical Engineering)",
+      "period": "2023 – 2025"
+    },
+    "sjtu": {
+      "school": "上海交通大學",
+      "degree": "B.Eng (電子工程)",
+      "period": "2018 – 2022"
+    }
+  },
+  "contact": {
+    "section": "聯絡",
+    "subtitle": "歡迎透過 LinkedIn 聯繫",
+    "linkedin": "在 LinkedIn 上聯繫",
+    "downloadResume": "下載完整履歷 PDF"
+  },
+  "project_page": {
+    "role": "角色",
+    "duration": "期間",
+    "process": "製程",
+    "tools": "工具",
+    "tldr": "重點摘要",
+    "problem": "問題",
+    "solution": "解決方案",
+    "results": "關鍵成果",
+    "deepDive": "技術細節",
+    "future": "未來工作",
+    "back": "返回首頁",
+    "prev": "上一個",
+    "next": "下一個"
+  },
+  "footer": {
+    "copyright": "本網站使用 Astro + Tailwind 製作",
+    "viewSource": "原始碼"
+  }
+}

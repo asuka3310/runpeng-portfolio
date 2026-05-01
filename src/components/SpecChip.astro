@@ -1,0 +1,15 @@
+---
+interface Props {
+  variant?: 'default' | 'solid';
+}
+
+const { variant = 'default' } = Astro.props;
+const cls =
+  variant === 'solid'
+    ? 'inline-flex items-center rounded-full bg-aqua-500 px-3 py-1 font-mono text-xs font-semibold text-white'
+    : 'chip';
+---
+
+<span class={cls}>
+  <slot />
+</span>

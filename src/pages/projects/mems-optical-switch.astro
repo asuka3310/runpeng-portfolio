@@ -1,0 +1,27 @@
+---
+import ProjectLayout from '@/layouts/ProjectLayout.astro';
+import MemsContent from '@/components/projects/MemsContent.astro';
+import { getLocaleFromUrl } from '@/lib/i18n';
+import { getProject } from '@/lib/projects';
+
+const locale = getLocaleFromUrl(Astro.url);
+const project = getProject('mems-optical-switch');
+
+const title = 'MEMS 光開關';
+const subtitle = '電子驅動光開關 · 碩士論文';
+const tldr = [
+  '用 SiO₂ 蛇形彈簧取代傳統 torsion，搭配分裂式底電極差動驅動，把淨扭矩放大 4 倍。',
+  '建立完整電-機耦合模型；COMSOL FEA 模擬與解析理論吻合度達 99%。',
+  '兩種電壓組態（20–50 V / 50–80 V）下的最佳尺寸完整驗證；動態共振頻率落在 1.7–2 kHz。',
+];
+---
+
+<ProjectLayout
+  project={project}
+  locale={locale}
+  title={title}
+  subtitle={subtitle}
+  tldr={tldr}
+>
+  <MemsContent locale={locale} />
+</ProjectLayout>

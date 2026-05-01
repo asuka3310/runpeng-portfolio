@@ -1,0 +1,19 @@
+---
+import BaseLayout from '@/layouts/BaseLayout.astro';
+import Hero from '@/components/Hero.astro';
+import BentoGrid from '@/components/BentoGrid.astro';
+import SkillMatrix from '@/components/SkillMatrix.astro';
+import EducationTimeline from '@/components/EducationTimeline.astro';
+import ContactBlock from '@/components/ContactBlock.astro';
+import { getLocaleFromUrl } from '@/lib/i18n';
+
+const locale = getLocaleFromUrl(Astro.url);
+---
+
+<BaseLayout>
+  <Hero locale={locale} />
+  <BentoGrid locale={locale} />
+  <SkillMatrix locale={locale} />
+  <EducationTimeline locale={locale} />
+  <ContactBlock locale={locale} />
+</BaseLayout>

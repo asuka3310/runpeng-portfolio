@@ -1,0 +1,89 @@
+{
+  "nav": {
+    "projects": "Projects",
+    "about": "About",
+    "resume": "Resume",
+    "contact": "Contact"
+  },
+  "hero": {
+    "name": "Runpeng Ma",
+    "nameEn": "馬潤芃",
+    "tagline": "Analog IC & MEMS Engineer",
+    "taglineEn": "類比 IC 與 MEMS 工程師",
+    "intro": "Three engineering projects spanning MEMS physical modeling and 45nm CMOS analog IC design, from COMSOL simulation to transistor-level implementation.",
+    "cta1": "View Projects",
+    "cta2": "Download Resume",
+    "cta3": "LinkedIn"
+  },
+  "projects": {
+    "section": "Featured Projects",
+    "subtitle": "Three end-to-end engineering works from theory to simulation",
+    "viewDetails": "View Details",
+    "individual": "Solo project",
+    "team2": "Team of 2",
+    "team3": "Team of 3",
+    "mems": {
+      "title": "MEMS Optical Switch",
+      "subtitle": "Electrostatic-driven optical switch · Master's thesis",
+      "summary": "Replaced traditional torsion with SiO₂ serpentine springs, achieving 4× rotation angle. COMSOL static and dynamic simulations matched theory at 99%."
+    },
+    "comparator": {
+      "title": "Rail-to-Rail Differential Comparator",
+      "subtitle": "0.9V FreePDK 45nm CMOS",
+      "summary": "Complementary differential pair + folded cascode topology, achieving 26.6 ns worst-case delay under Monte Carlo and corner analysis."
+    },
+    "opamp": {
+      "title": "LS-Buffer Op-Amp",
+      "subtitle": "Voltage level shift ±5V → 1V",
+      "summary": "Two-stage op-amp design with 78 dB DC gain, meeting all GBW, PM, and slew-rate specifications."
+    }
+  },
+  "skills": {
+    "section": "Technical Skills",
+    "subtitle": "From device physics to transistor level",
+    "groups": {
+      "mems": "MEMS / Physical Modeling",
+      "analog": "Analog IC Design",
+      "tools": "Tools & Languages",
+      "method": "Design Methodology"
+    }
+  },
+  "education": {
+    "section": "Education",
+    "unsw": {
+      "school": "UNSW Sydney",
+      "degree": "M.Eng (Electrical Engineering)",
+      "period": "2023 – 2025"
+    },
+    "sjtu": {
+      "school": "Shanghai Jiao Tong University",
+      "degree": "B.Eng (Electronic Engineering)",
+      "period": "2018 – 2022"
+    }
+  },
+  "contact": {
+    "section": "Contact",
+    "subtitle": "Reach out via LinkedIn",
+    "linkedin": "Connect on LinkedIn",
+    "downloadResume": "Download Full Resume (PDF)"
+  },
+  "project_page": {
+    "role": "Role",
+    "duration": "Duration",
+    "process": "Process",
+    "tools": "Tools",
+    "tldr": "TL;DR",
+    "problem": "Problem",
+    "solution": "Solution",
+    "results": "Key Results",
+    "deepDive": "Technical Deep-Dive",
+    "future": "Future Work",
+    "back": "Back to Home",
+    "prev": "Previous",
+    "next": "Next"
+  },
+  "footer": {
+    "copyright": "Built with Astro + Tailwind",
+    "viewSource": "Source"
+  }
+}

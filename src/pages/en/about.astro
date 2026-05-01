@@ -1,0 +1,83 @@
+---
+import BaseLayout from '@/layouts/BaseLayout.astro';
+import { getLocaleFromUrl, t, localizedPath } from '@/lib/i18n';
+
+const locale = getLocaleFromUrl(Astro.url);
+const dict = t(locale);
+const isZh = locale === 'zh-TW';
+---
+
+<BaseLayout title={`About · Runpeng Ma`}>
+  <section class="container-page py-16 sm:py-24">
+    <div class="mx-auto max-w-3xl">
+      <p class="font-mono text-xs uppercase tracking-widest text-aqua-600 reveal">
+        {dict.nav.about}
+      </p>
+      <h1 class="mt-3 font-display text-4xl font-bold text-ink sm:text-5xl reveal">
+        {isZh ? '關於我' : 'About Me'}
+      </h1>
+
+      <div class="mt-8 space-y-6 text-base leading-relaxed text-ink-muted sm:text-lg reveal">
+        {isZh ? (
+          <>
+            <p>
+              我是 <strong class="text-ink">馬潤芃（Runpeng Ma）</strong>，2025 年於 UNSW Sydney 完成電子工程碩士學位，本科畢業於上海交通大學電子工程系。研究方向橫跨 <strong class="text-ink">MEMS 物理建模</strong>與 <strong class="text-ink">CMOS 類比 / 混訊 IC 設計</strong>。
+            </p>
+            <p>
+              碩士論文設計了一款電子驅動 MEMS 光開關，提出用 SiO₂ 蛇形彈簧取代傳統 torsion 結構，搭配分裂式底電極差動驅動方案，淨扭矩放大 4 倍。完整建立了電-機耦合解析模型，並在 COMSOL Multiphysics 上完成靜態與動態雙模擬，理論與模擬吻合度達 99%。
+            </p>
+            <p>
+              在類比 IC 設計領域,我使用 Cadence Virtuoso 與 FreePDK 45 nm 製程,獨立或與隊友合作完成兩個專案:rail-to-rail 差動比較器(0.9 V 電源)、LS-Buffer 兩階運算放大器(電壓位準轉換)。兩者都經過 Monte Carlo 與 Corner 驗證流程。
+            </p>
+            <p>
+              我喜歡把<strong class="text-ink">物理直覺</strong>與<strong class="text-ink">電路層級設計</strong>連在一起。寫公式時想著電晶體在做什麼;佈局時想著電場怎麼分布。
+            </p>
+            <p>
+              目前在台灣尋求<strong class="text-ink">類比 / 混訊 IC 工程師、MEMS 工程師</strong>相關職缺。
+            </p>
+          </>
+        ) : (
+          <>
+            <p>
+              I'm <strong class="text-ink">Runpeng Ma</strong>. I completed my Master of Engineering in Electrical Engineering at UNSW Sydney in 2025, with an undergraduate background from Shanghai Jiao Tong University. My work spans <strong class="text-ink">MEMS physical modeling</strong> and <strong class="text-ink">CMOS analog / mixed-signal IC design</strong>.
+            </p>
+            <p>
+              For my master's thesis, I designed an electrostatically driven MEMS optical switch. I replaced the traditional torsion structure with SiO₂ serpentine springs and adopted a split-bottom-electrode differential drive — amplifying net torque by 4×. I built a complete electromechanical coupled model and validated it in COMSOL Multiphysics with both static and dynamic simulations, achieving 99% theory-vs-simulation agreement.
+            </p>
+            <p>
+              In analog IC design, using Cadence Virtuoso on FreePDK 45 nm, I have completed two projects (solo and team): a rail-to-rail differential comparator at 0.9 V supply, and an LS-Buffer two-stage op-amp for voltage level shifting. Both went through Monte Carlo and corner-analysis verification flows.
+            </p>
+            <p>
+              I enjoy connecting <strong class="text-ink">physical intuition</strong> with <strong class="text-ink">circuit-level design</strong>. When deriving equations I'm thinking about what the transistor is doing; when laying out, I'm thinking about how the field distributes.
+            </p>
+            <p>
+              I'm currently seeking <strong class="text-ink">analog / mixed-signal IC engineer or MEMS engineer</strong> roles in Taiwan.
+            </p>
+          </>
+        )}
+      </div>
+
+      <div class="mt-12 grid gap-5 sm:grid-cols-2">
+        <div class="rounded-2xl border border-aqua-200 bg-white p-6 reveal">
+          <p class="font-mono text-xs text-aqua-600">{dict.education.unsw.period}</p>
+          <h3 class="mt-2 font-display text-lg font-semibold text-ink">{dict.education.unsw.school}</h3>
+          <p class="mt-1 text-sm text-ink-muted">{dict.education.unsw.degree}</p>
+        </div>
+        <div class="rounded-2xl border border-aqua-100 bg-aqua-50/30 p-6 reveal">
+          <p class="font-mono text-xs text-aqua-600">{dict.education.sjtu.period}</p>
+          <h3 class="mt-2 font-display text-lg font-semibold text-ink">{dict.education.sjtu.school}</h3>
+          <p class="mt-1 text-sm text-ink-muted">{dict.education.sjtu.degree}</p>
+        </div>
+      </div>
+
+      <div class="mt-12 flex flex-wrap gap-3 reveal">
+        <a href={localizedPath(locale, '/resume')} class="btn-primary">
+          {dict.contact.downloadResume}
+        </a>
+        <a href={localizedPath(locale, '/#projects')} class="btn-ghost">
+          {isZh ? '回首頁看專案' : 'See Projects'}
+        </a>
+      </div>
+    </div>
+  </section>
+</BaseLayout>

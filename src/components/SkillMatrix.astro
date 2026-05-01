@@ -1,0 +1,63 @@
+---
+import { t, type Locale } from '@/lib/i18n';
+
+interface Props {
+  locale: Locale;
+}
+
+const { locale } = Astro.props;
+const dict = t(locale);
+
+const isZh = locale === 'zh-TW';
+
+const groups = [
+  {
+    title: dict.skills.groups.mems,
+    items: isZh
+      ? ['COMSOL Multiphysics', '有限元分析 (FEA)', '靜電致動模型', '頻率響應分析', '結構共振模擬']
+      : ['COMSOL Multiphysics', 'Finite Element Analysis', 'Electrostatic Actuation', 'Frequency Response', 'Resonance Simulation'],
+  },
+  {
+    title: dict.skills.groups.analog,
+    items: isZh
+      ? ['Cadence Virtuoso', 'Spectre 模擬', 'FreePDK 45 nm', 'Monte Carlo / Corner', 'Folded Cascode', '兩階運放設計']
+      : ['Cadence Virtuoso', 'Spectre Simulator', 'FreePDK 45 nm', 'Monte Carlo / Corner', 'Folded Cascode', 'Two-Stage Op-Amp'],
+  },
+  {
+    title: dict.skills.groups.tools,
+    items: ['Verilog', 'MATLAB', 'Python', 'LaTeX', 'Git', 'Linux'],
+  },
+  {
+    title: dict.skills.groups.method,
+    items: isZh
+      ? ['電晶體層級設計', '靜態軟化分析', 'Pull-in 風險評估', 'Wafer 鍵合製程規劃', 'DRIE / PECVD 流程']
+      : ['Transistor-Level Design', 'Static Softening Analysis', 'Pull-in Risk Evaluation', 'Wafer Bonding Process', 'DRIE / PECVD Flow'],
+  },
+];
+---
+
+<section class="container-page py-16 sm:py-20">
+  <div class="reveal mb-10 max-w-2xl">
+    <p class="font-mono text-xs uppercase tracking-widest text-aqua-600">
+      {dict.skills.section}
+    </p>
+    <h2 class="mt-2 section-title">{dict.skills.section}</h2>
+    <p class="section-subtitle">{dict.skills.subtitle}</p>
+  </div>
+
+  <div class="grid gap-5 sm:grid-cols-2 lg:grid-cols-4">
+    {groups.map((g) => (
+      <div class="reveal rounded-2xl border border-aqua-100 bg-white p-6">
+        <h3 class="font-display text-lg font-semibold text-aqua-700">{g.title}</h3>
+        <ul class="mt-4 space-y-2">
+          {g.items.map((item) => (
+            <li class="flex items-start gap-2 text-sm text-ink-muted">
+              <span class="mt-1.5 inline-block h-1 w-1 flex-shrink-0 rounded-full bg-aqua-400"></span>
+              <span class="font-mono text-[13px]">{item}</span>
+            </li>
+          ))}
+        </ul>
+      </div>
+    ))}
+  </div>
+</section>

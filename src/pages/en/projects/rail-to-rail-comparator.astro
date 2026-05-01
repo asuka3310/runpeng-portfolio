@@ -1,0 +1,27 @@
+---
+import ProjectLayout from '@/layouts/ProjectLayout.astro';
+import ComparatorContent from '@/components/projects/ComparatorContent.astro';
+import { getLocaleFromUrl } from '@/lib/i18n';
+import { getProject } from '@/lib/projects';
+
+const locale = getLocaleFromUrl(Astro.url);
+const project = getProject('rail-to-rail-comparator');
+
+const title = 'Rail-to-Rail Differential Comparator';
+const subtitle = '0.9V FreePDK 45nm CMOS · ELEC9701 (Team of 3)';
+const tldr = [
+  'Complementary PMOS / NMOS pairs + folded cascode achieve rail-to-rail input at 0.9 V supply.',
+  'Weak-inversion biasing + current spillover control maintain constant g_m across the full input range.',
+  'Monte Carlo (30 samples): worst-case delay 26.6 ns, worst-case offset 8.9 mV, typical power 0.18 mW.',
+];
+---
+
+<ProjectLayout
+  project={project}
+  locale={locale}
+  title={title}
+  subtitle={subtitle}
+  tldr={tldr}
+>
+  <ComparatorContent locale={locale} />
+</ProjectLayout>

@@ -1,0 +1,17 @@
+---
+interface Props {
+  value: string;
+  label: string;
+  unit?: string;
+}
+
+const { value, label, unit } = Astro.props;
+---
+
+<div class="stat-callout">
+  <div class="flex items-baseline gap-1">
+    <span class="stat-number">{value}</span>
+    {unit && <span class="font-mono text-base text-aqua-500">{unit}</span>}
+  </div>
+  <p class="stat-label">{label}</p>
+</div>

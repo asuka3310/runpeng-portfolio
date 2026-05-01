@@ -1,0 +1,187 @@
+---
+import SectionBlock from '@/components/SectionBlock.astro';
+import StatCallout from '@/components/StatCallout.astro';
+import OpAmpTopologySVG from '@/components/diagrams/OpAmpTopologySVG.astro';
+import { type Locale } from '@/lib/i18n';
+
+interface Props {
+  locale: Locale;
+}
+const { locale } = Astro.props;
+const isZh = locale === 'zh-TW';
+---
+
+<SectionBlock
+  title={isZh ? '問題' : 'Problem'}
+  eyebrow="01 / Problem"
+>
+  {isZh ? (
+    <>
+      <p>
+        晶片內部訊號使用 0.5–1.5 V 範圍，但外部感測器訊號為 ±5 V（G = 0.1）或 ±2.5 V（G = 0.2）擺幅。需要一個<strong>位準轉換緩衝器（LS-Buffer）</strong>把外部訊號壓縮、平移到晶片內部範圍。
+      </p>
+      <p>
+        FreePDK 45 nm 電晶體的輸入電壓限制為 0–3.6 V，無法直接接 ±5 V 訊號 — 必須先把輸入範圍調整到電晶體可接受的區間，再做位準轉換。
+      </p>
+    </>
+  ) : (
+    <>
+      <p>
+        On-chip signals use 0.5–1.5 V range, but external sensor signals swing ±5 V (G = 0.1) or ±2.5 V (G = 0.2). A <strong>level-shift buffer (LS-Buffer)</strong> compresses and translates the external signal to the on-chip range.
+      </p>
+      <p>
+        FreePDK 45 nm transistors have a 0–3.6 V input limit and cannot directly handle ±5 V — the input range must be conditioned first, then level-shifted.
+      </p>
+    </>
+  )}
+</SectionBlock>
+
+<SectionBlock
+  title={isZh ? '解決方案' : 'Solution'}
+  eyebrow="02 / Solution"
+>
+  {isZh ? (
+    <>
+      <p>
+        採用<strong>反相放大器架構（inverting amplifier）</strong>達成位準轉換：先把輸入電壓範圍壓縮到 -0.5 ~ 0.5 V，再加上 1 V 參考電壓，得到目標範圍 0.5–1.5 V。
+      </p>
+      <ol class="ml-5 list-decimal space-y-3">
+        <li>
+          <strong>兩階運算放大器（Two-stage Op-Amp）</strong>當作核心。第一階差動對放大、第二階共源極追求高增益。手算規格：A_v = 80 dB、C_L = 10 pF、GBW &gt; 1 MHz、PM &gt; 60°、SR &gt; 5 V/μs、L = 1 μm。
+        </li>
+        <li>
+          <strong>右半平面零點（RHPZ）控制</strong>。為了避免 RHPZ 拉低相位裕度，把零點頻率設計在 GBW 的 10 倍以上。
+        </li>
+        <li>
+          <strong>PMOS 開關 + 反相器驅動</strong>。增益切換用一顆 PMOS 大開關控制（W = 30 μm）。原始 V_G 邏輯訊號為 0.9 V，無法直接打開/關閉開關 — 加一顆<strong>位準位移反相器</strong>，把 V_G「1」映射為 3.3 V 以驅動 PMOS。
+        </li>
+      </ol>
+    </>
+  ) : (
+    <>
+      <p>
+        Used an <strong>inverting amplifier architecture</strong>: first compress the input to -0.5 ~ 0.5 V, then add a 1 V reference to land on the target range 0.5–1.5 V.
+      </p>
+      <ol class="ml-5 list-decimal space-y-3">
+        <li>
+          <strong>Two-stage op-amp</strong> as the core. First-stage differential pair for gain, second-stage common-source for high gain. Hand-calculated specs: A_v = 80 dB, C_L = 10 pF, GBW &gt; 1 MHz, PM &gt; 60°, SR &gt; 5 V/μs, L = 1 μm.
+        </li>
+        <li>
+          <strong>Right Half-Plane Zero (RHPZ) control.</strong> To preserve phase margin, the RHPZ is placed at &gt; 10× GBW.
+        </li>
+        <li>
+          <strong>PMOS switch + inverter driver.</strong> Gain switching is controlled by a wide PMOS (W = 30 μm). The original V_G logic is 0.9 V — too low to drive the switch directly — so a <strong>level-shift inverter</strong> maps V_G "1" to 3.3 V, sufficient for the PMOS gate.
+        </li>
+      </ol>
+    </>
+  )}
+
+  <div class="!mt-8 rounded-2xl border border-aqua-100 bg-white p-4 sm:p-6">
+    <OpAmpTopologySVG />
+  </div>
+</SectionBlock>
+
+<SectionBlock
+  title={isZh ? '關鍵成果' : 'Key Results'}
+  eyebrow="03 / Results"
+>
+  <div class="!mt-4 grid grid-cols-2 gap-3 sm:grid-cols-4 sm:gap-4">
+    <StatCallout value="78.0" unit="dB" label={isZh ? '模擬 DC gain' : 'Simulated DC gain'} />
+    <StatCallout value="84.4" unit="dB" label={isZh ? '手算 DC gain' : 'Hand-calc DC gain'} />
+    <StatCallout value=">60" unit="°" label={isZh ? 'Phase Margin' : 'Phase Margin'} />
+    <StatCallout value=">1" unit="MHz" label={isZh ? 'GBW' : 'Gain-Bandwidth'} />
+  </div>
+
+  {isZh ? (
+    <>
+      <p class="!mt-6">
+        驗證流程：
+      </p>
+      <ul class="ml-5 list-disc space-y-2">
+        <li><strong>Op-Amp 單元測試</strong>：DC gain、GBW、PM、CMIR、Slew Rate 模擬，全部達標。</li>
+        <li><strong>整體 LS-Buffer 性能測試</strong>：以三個指標評估 — 3 dB 頻寬、功耗、輸出失調電壓、增益誤差、佈局面積。</li>
+        <li><strong>性能指標 M</strong>：M = f₀ / (P_sup · V_OS · α_G · A_LO)。 G=0.1 時 M = 1.65 × 10⁻⁵；G=0.2 時 M = 2.05 × 10⁻⁶。</li>
+      </ul>
+
+      <p>
+        誠實說明：增益誤差仍偏高、佈局面積較大。下一輪可透過<strong>提升 op-amp 的 slew rate</strong>與<strong>更精細的尺寸最佳化</strong>改善。
+      </p>
+    </>
+  ) : (
+    <>
+      <p class="!mt-6">Verification flow:</p>
+      <ul class="ml-5 list-disc space-y-2">
+        <li><strong>Op-amp standalone</strong>: DC gain, GBW, PM, CMIR, slew rate — all specs met.</li>
+        <li><strong>LS-Buffer integrated</strong>: measured 3 dB bandwidth, power, output offset, gain error, and layout area.</li>
+        <li><strong>Figure of merit M</strong> = f₀ / (P_sup · V_OS · α_G · A_LO). At G=0.1, M = 1.65 × 10⁻⁵; at G=0.2, M = 2.05 × 10⁻⁶.</li>
+      </ul>
+
+      <p>
+        Honest assessment: gain error remained somewhat high and layout area was large. Future improvements: <strong>higher op-amp slew rate</strong> and <strong>finer transistor sizing</strong>.
+      </p>
+    </>
+  )}
+</SectionBlock>
+
+<SectionBlock
+  title={isZh ? '技術細節' : 'Technical Deep-Dive'}
+  eyebrow="04 / Deep-Dive"
+>
+  {isZh ? (
+    <>
+      <h3 class="font-display text-lg font-semibold text-ink !mt-2">電晶體尺寸</h3>
+      <ul class="ml-5 list-disc space-y-1">
+        <li>電流鏡 W₆ = W₇ = W₈ = 30 μm（後續調為 W₈ = 14 μm）</li>
+        <li>對應 W₃ = 94 μm（搭配 W₈ 修正）</li>
+        <li>反相器 W_n / W_p = 40，控制面積</li>
+        <li>R₂ = 80 kΩ、R_f = 740 kΩ（含 source follower 與 PMOS r_on 影響）</li>
+      </ul>
+
+      <h3 class="font-display text-lg font-semibold text-ink !mt-6">面積估算</h3>
+      <p>
+        A_LO ≈ 40 × Σ W_i·L_i + 4000 μm²/pF × Σ C_j + 5 μm²/kΩ × Σ R_k
+      </p>
+      <p>
+        綜合考量電晶體閘極面積、電容、電阻佔用，A_LO 隨 W₈ 等核心尺寸顯著變化。
+      </p>
+
+      <h3 class="font-display text-lg font-semibold text-ink !mt-6">設計挑戰</h3>
+      <ol class="ml-5 list-decimal space-y-1">
+        <li>輸入電壓超過電晶體限制 — 先做電壓範圍調整再做位準轉換。</li>
+        <li>外部源阻抗 R_S 不確定 — 加電路使 LS-Buffer 內部不受外部影響。</li>
+        <li>邏輯訊號 V_G 僅 0.9 V — 加位準位移反相器把 V_G「1」變 3.3 V。</li>
+      </ol>
+
+      <h3 class="font-display text-lg font-semibold text-ink !mt-6">分工</h3>
+      <p>
+        兩人組（z5508535 / z5570600）。我負責<strong>反相器尺寸計算</strong>、<strong>位準位移驗證</strong>與<strong>整體性能指標 M 計算</strong>。
+      </p>
+    </>
+  ) : (
+    <>
+      <h3 class="font-display text-lg font-semibold text-ink !mt-2">Transistor Sizing</h3>
+      <ul class="ml-5 list-disc space-y-1">
+        <li>Current mirror W₆ = W₇ = W₈ = 30 μm (later refined to W₈ = 14 μm)</li>
+        <li>W₃ = 94 μm to compensate for W₈ change</li>
+        <li>Inverter W_n / W_p = 40 to control area</li>
+        <li>R₂ = 80 kΩ, R_f = 740 kΩ (accounting for source follower and PMOS r_on)</li>
+      </ul>
+
+      <h3 class="font-display text-lg font-semibold text-ink !mt-6">Area Estimation</h3>
+      <p>A_LO ≈ 40 × Σ W_i·L_i + 4000 μm²/pF × Σ C_j + 5 μm²/kΩ × Σ R_k</p>
+      <p>Total layout area is sensitive to W₈ and core sizing choices.</p>
+
+      <h3 class="font-display text-lg font-semibold text-ink !mt-6">Design Challenges</h3>
+      <ol class="ml-5 list-decimal space-y-1">
+        <li>Input voltage exceeded transistor limits — required range conditioning before level shift.</li>
+        <li>Uncertain source resistance R_S — added internal isolation circuit.</li>
+        <li>V_G logic was only 0.9 V — needed a level-shift inverter to map "1" to 3.3 V.</li>
+      </ol>
+
+      <h3 class="font-display text-lg font-semibold text-ink !mt-6">Team Contribution</h3>
+      <p>
+        Team of two (z5508535 / z5570600). My contributions: <strong>inverter sizing</strong>, <strong>level-shift verification</strong>, and <strong>figure-of-merit M calculation</strong>.
+      </p>
+    </>
+  )}
+</SectionBlock>

@@ -1,0 +1,104 @@
+---
+// Schematic of the Rail-to-Rail Differential Comparator:
+// complementary differential pairs + folded cascode.
+---
+
+<figure class="w-full">
+  <svg viewBox="0 0 720 480" xmlns="http://www.w3.org/2000/svg" class="w-full" role="img" aria-labelledby="comp-title">
+    <title id="comp-title">Rail-to-Rail Differential Comparator Topology</title>
+
+    <!-- VDD rail -->
+    <line x1="40" y1="40" x2="680" y2="40" stroke="#2A9098" stroke-width="2" />
+    <text x="20" y="45" font-family="JetBrains Mono, monospace" font-size="12" fill="#2A9098" font-weight="600">VDD</text>
+    <text x="690" y="45" font-family="JetBrains Mono, monospace" font-size="11" fill="#5C7479">0.9 V</text>
+
+    <!-- VSS rail -->
+    <line x1="40" y1="440" x2="680" y2="440" stroke="#5C7479" stroke-width="2" />
+    <text x="20" y="445" font-family="JetBrains Mono, monospace" font-size="12" fill="#5C7479" font-weight="600">GND</text>
+
+    <!-- PMOS current source (top) -->
+    <g transform="translate(360 70)">
+      <rect x="-15" y="0" width="30" height="20" fill="white" stroke="#2A9098" stroke-width="1.5" />
+      <text x="0" y="14" text-anchor="middle" font-family="JetBrains Mono, monospace" font-size="10" fill="#2A9098">M_P</text>
+      <line x1="0" y1="-30" x2="0" y2="0" stroke="#2A9098" stroke-width="1.5" />
+      <line x1="0" y1="20" x2="0" y2="50" stroke="#2A9098" stroke-width="1.5" />
+      <text x="20" y="14" font-family="JetBrains Mono, monospace" font-size="10" fill="#5C7479">22 μA</text>
+    </g>
+
+    <!-- P-type differential pair -->
+    <g transform="translate(360 130)">
+      <!-- P1 -->
+      <rect x="-90" y="0" width="30" height="20" fill="white" stroke="#5EBDC4" stroke-width="1.5" />
+      <text x="-75" y="14" text-anchor="middle" font-family="JetBrains Mono, monospace" font-size="10" fill="#5EBDC4">P1</text>
+      <line x1="-75" y1="20" x2="-75" y2="50" stroke="#5EBDC4" stroke-width="1.5" />
+      <line x1="-90" y1="10" x2="-130" y2="10" stroke="#5EBDC4" stroke-width="1.5" />
+      <text x="-160" y="14" text-anchor="middle" font-family="JetBrains Mono, monospace" font-size="11" fill="#0F2A2D">V_AP</text>
+
+      <!-- P2 -->
+      <rect x="60" y="0" width="30" height="20" fill="white" stroke="#5EBDC4" stroke-width="1.5" />
+      <text x="75" y="14" text-anchor="middle" font-family="JetBrains Mono, monospace" font-size="10" fill="#5EBDC4">P2</text>
+      <line x1="75" y1="20" x2="75" y2="50" stroke="#5EBDC4" stroke-width="1.5" />
+      <line x1="90" y1="10" x2="130" y2="10" stroke="#5EBDC4" stroke-width="1.5" />
+      <text x="160" y="14" text-anchor="middle" font-family="JetBrains Mono, monospace" font-size="11" fill="#0F2A2D">V_BP</text>
+
+      <!-- Tail -->
+      <line x1="-75" y1="0" x2="0" y2="0" stroke="#5EBDC4" stroke-width="1.5" />
+      <line x1="0" y1="-50" x2="0" y2="0" stroke="#5EBDC4" stroke-width="1.5" />
+      <line x1="75" y1="0" x2="0" y2="0" stroke="#5EBDC4" stroke-width="1.5" />
+    </g>
+
+    <!-- Folded cascode (middle) -->
+    <g transform="translate(360 230)">
+      <rect x="-110" y="0" width="220" height="60" fill="#F5FBFC" stroke="#2A9098" stroke-width="1" stroke-dasharray="4 3" rx="4" />
+      <text x="0" y="35" text-anchor="middle" font-family="Inter, sans-serif" font-size="13" font-weight="600" fill="#2A9098">Folded Cascode</text>
+      <text x="0" y="50" text-anchor="middle" font-family="JetBrains Mono, monospace" font-size="10" fill="#5C7479">summation node + spillover control</text>
+
+      <!-- inputs from top diff pair -->
+      <line x1="-75" y1="-50" x2="-75" y2="0" stroke="#5EBDC4" stroke-width="1.5" />
+      <line x1="75" y1="-50" x2="75" y2="0" stroke="#5EBDC4" stroke-width="1.5" />
+      <!-- inputs from bottom diff pair -->
+      <line x1="-75" y1="60" x2="-75" y2="110" stroke="#7DD8DE" stroke-width="1.5" />
+      <line x1="75" y1="60" x2="75" y2="110" stroke="#7DD8DE" stroke-width="1.5" />
+
+      <!-- output -->
+      <line x1="110" y1="30" x2="180" y2="30" stroke="#3FA89B" stroke-width="2" />
+      <circle cx="180" cy="30" r="4" fill="#3FA89B" />
+      <text x="195" y="34" font-family="JetBrains Mono, monospace" font-size="12" fill="#0F2A2D" font-weight="600">V_out</text>
+    </g>
+
+    <!-- N-type differential pair -->
+    <g transform="translate(360 350)">
+      <!-- N1 -->
+      <rect x="-90" y="-10" width="30" height="20" fill="white" stroke="#7DD8DE" stroke-width="1.5" />
+      <text x="-75" y="4" text-anchor="middle" font-family="JetBrains Mono, monospace" font-size="10" fill="#2A9098">N1</text>
+      <line x1="-90" y1="0" x2="-130" y2="0" stroke="#7DD8DE" stroke-width="1.5" />
+      <text x="-160" y="4" text-anchor="middle" font-family="JetBrains Mono, monospace" font-size="11" fill="#0F2A2D">V_AN</text>
+
+      <!-- N2 -->
+      <rect x="60" y="-10" width="30" height="20" fill="white" stroke="#7DD8DE" stroke-width="1.5" />
+      <text x="75" y="4" text-anchor="middle" font-family="JetBrains Mono, monospace" font-size="10" fill="#2A9098">N2</text>
+      <line x1="90" y1="0" x2="130" y2="0" stroke="#7DD8DE" stroke-width="1.5" />
+      <text x="160" y="4" text-anchor="middle" font-family="JetBrains Mono, monospace" font-size="11" fill="#0F2A2D">V_BN</text>
+
+      <!-- Tail to GND -->
+      <line x1="-75" y1="10" x2="0" y2="40" stroke="#7DD8DE" stroke-width="1.5" />
+      <line x1="75" y1="10" x2="0" y2="40" stroke="#7DD8DE" stroke-width="1.5" />
+      <line x1="0" y1="40" x2="0" y2="80" stroke="#7DD8DE" stroke-width="1.5" />
+    </g>
+
+    <!-- NMOS current sink -->
+    <g transform="translate(360 410)">
+      <rect x="-15" y="0" width="30" height="20" fill="white" stroke="#7DD8DE" stroke-width="1.5" />
+      <text x="0" y="14" text-anchor="middle" font-family="JetBrains Mono, monospace" font-size="10" fill="#2A9098">M_N</text>
+      <line x1="0" y1="20" x2="0" y2="30" stroke="#7DD8DE" stroke-width="1.5" />
+      <text x="20" y="14" font-family="JetBrains Mono, monospace" font-size="10" fill="#5C7479">22 μA</text>
+    </g>
+
+    <!-- Topology label -->
+    <text x="40" y="80" font-family="Inter, sans-serif" font-size="12" font-weight="600" fill="#5EBDC4">PMOS pair</text>
+    <text x="40" y="370" font-family="Inter, sans-serif" font-size="12" font-weight="600" fill="#7DD8DE">NMOS pair</text>
+  </svg>
+  <figcaption class="mt-3 font-mono text-xs text-ink-soft">
+    Fig. — Topology: complementary PMOS + NMOS differential pairs feed into a folded cascode summation stage. Constant-gm rail-to-rail input via current spillover control.
+  </figcaption>
+</figure>

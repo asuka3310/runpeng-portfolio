@@ -1,0 +1,42 @@
+---
+import LangSwitch from './LangSwitch.astro';
+import { t, localizedPath, type Locale } from '@/lib/i18n';
+
+interface Props {
+  locale: Locale;
+  pathname: string;
+}
+
+const { locale, pathname } = Astro.props;
+const dict = t(locale);
+
+const links = [
+  { href: localizedPath(locale, '/#projects'), label: dict.nav.projects },
+  { href: localizedPath(locale, '/about'), label: dict.nav.about },
+  { href: localizedPath(locale, '/resume'), label: dict.nav.resume },
+];
+---
+
+<header class="sticky top-0 z-40 border-b border-aqua-100/60 bg-bg/80 backdrop-blur-md no-print">
+  <div class="container-page flex h-16 items-center justify-between">
+    <a
+      href={localizedPath(locale, '/')}
+      class="font-display text-lg font-bold tracking-tight text-ink hover:text-aqua-600"
+    >
+      <span class="text-aqua-500">R</span>unpeng <span class="text-aqua-500">M</span>a
+    </a>
+
+    <nav class="flex items-center gap-1 sm:gap-2">
+      {links.map((l) => (
+        <a
+          href={l.href}
+          class="rounded-full px-3 py-2 text-sm font-medium text-ink-muted transition-colors hover:bg-aqua-50 hover:text-aqua-700 sm:px-4"
+        >
+          {l.label}
+        </a>
+      ))}
+      <span class="mx-1 hidden h-5 w-px bg-aqua-100 sm:block"></span>
+      <LangSwitch locale={locale} pathname={pathname} />
+    </nav>
+  </div>
+</header>

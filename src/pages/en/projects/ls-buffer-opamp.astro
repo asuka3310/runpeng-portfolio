@@ -1,0 +1,27 @@
+---
+import ProjectLayout from '@/layouts/ProjectLayout.astro';
+import OpAmpContent from '@/components/projects/OpAmpContent.astro';
+import { getLocaleFromUrl } from '@/lib/i18n';
+import { getProject } from '@/lib/projects';
+
+const locale = getLocaleFromUrl(Astro.url);
+const project = getProject('ls-buffer-opamp');
+
+const title = 'LS-Buffer Op-Amp';
+const subtitle = 'Voltage level shift ±5V → 1V · ELEC4602 (Team of 2)';
+const tldr = [
+  'Two-stage op-amp: 80 dB DC gain target, 78 dB simulated; GBW, PM, and slew-rate specs all met.',
+  'PMOS switch + level-shift inverter translate 0.9 V logic signal up to 3.3 V drive voltage.',
+  'Inverting-amplifier topology compresses external ±5 V signal into the on-chip 0.5–1.5 V range.',
+];
+---
+
+<ProjectLayout
+  project={project}
+  locale={locale}
+  title={title}
+  subtitle={subtitle}
+  tldr={tldr}
+>
+  <OpAmpContent locale={locale} />
+</ProjectLayout>

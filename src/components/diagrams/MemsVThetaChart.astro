@@ -1,0 +1,114 @@
+---
+// V-θ static characteristic for Config A (20-50V) and Config B (50-80V).
+// Data from the thesis Tables 5/6.
+
+// Config A data (V, θ)
+const configA: [number, number][] = [
+  [20, 0.379], [22, 0.459], [24, 0.546], [26, 0.639], [28, 0.740],
+  [30, 0.850], [32, 0.970], [34, 1.086], [36, 1.226], [38, 1.364],
+  [40, 1.510], [42, 1.666], [44, 1.822], [46, 1.985], [48, 2.167],
+  [50, 2.351],
+];
+
+const configB: [number, number][] = [
+  [50, 0.748], [52, 0.777], [54, 0.807], [56, 0.836], [58, 0.866],
+  [60, 0.895], [62, 0.924], [64, 0.953], [66, 0.982], [68, 1.011],
+  [70, 1.040], [72, 1.068], [74, 1.097], [76, 1.126], [78, 1.155],
+  [80, 1.183],
+];
+
+// Chart geometry
+const W = 720, H = 360;
+const PAD_L = 60, PAD_R = 30, PAD_T = 30, PAD_B = 50;
+const plotW = W - PAD_L - PAD_R;
+const plotH = H - PAD_T - PAD_B;
+
+const xMin = 0, xMax = 90;
+const yMin = 0, yMax = 2.6;
+
+const sx = (x: number) => PAD_L + ((x - xMin) / (xMax - xMin)) * plotW;
+const sy = (y: number) => PAD_T + (1 - (y - yMin) / (yMax - yMin)) * plotH;
+
+const pathFor = (data: [number, number][]) =>
+  data.map(([x, y], i) => `${i === 0 ? 'M' : 'L'} ${sx(x).toFixed(1)} ${sy(y).toFixed(1)}`).join(' ');
+
+const xTicks = [0, 20, 40, 60, 80];
+const yTicks = [0, 0.5, 1.0, 1.5, 2.0, 2.5];
+---
+
+<figure class="w-full">
+  <svg viewBox={`0 0 ${W} ${H}`} xmlns="http://www.w3.org/2000/svg" class="w-full" role="img" aria-labelledby="vtheta-title">
+    <title id="vtheta-title">V-θ Static Characteristic from COMSOL FEA</title>
+
+    <!-- Axes -->
+    <g stroke="#5C7479" stroke-width="1" fill="none">
+      <line x1={PAD_L} y1={PAD_T} x2={PAD_L} y2={H - PAD_B} />
+      <line x1={PAD_L} y1={H - PAD_B} x2={W - PAD_R} y2={H - PAD_B} />
+    </g>
+
+    <!-- Grid lines -->
+    <g stroke="#D6ECEE" stroke-width="0.6">
+      {yTicks.map((y) => (
+        <line x1={PAD_L} y1={sy(y)} x2={W - PAD_R} y2={sy(y)} />
+      ))}
+    </g>
+
+    <!-- Y axis labels -->
+    <g font-family="JetBrains Mono, monospace" font-size="11" fill="#5C7479">
+      {yTicks.map((y) => (
+        <text x={PAD_L - 8} y={sy(y) + 4} text-anchor="end">{y.toFixed(1)}</text>
+      ))}
+    </g>
+
+    <!-- X axis labels -->
+    <g font-family="JetBrains Mono, monospace" font-size="11" fill="#5C7479">
+      {xTicks.map((x) => (
+        <text x={sx(x)} y={H - PAD_B + 18} text-anchor="middle">{x}</text>
+      ))}
+    </g>
+
+    <!-- Axis titles -->
+    <text x={W / 2} y={H - 8} text-anchor="middle" font-family="Inter, sans-serif" font-size="13" font-weight="600" fill="#0F2A2D">
+      Driving Voltage V (V)
+    </text>
+    <text
+      x={20} y={H / 2}
+      text-anchor="middle"
+      font-family="Inter, sans-serif" font-size="13" font-weight="600" fill="#0F2A2D"
+      transform={`rotate(-90, 20, ${H / 2})`}
+    >
+      Rotation Angle θ (°)
+    </text>
+
+    <!-- Curves -->
+    <path d={pathFor(configA)} stroke="#2A9098" stroke-width="2.4" fill="none" stroke-linecap="round" />
+    <path d={pathFor(configB)} stroke="#5EBDC4" stroke-width="2.4" fill="none" stroke-linecap="round" stroke-dasharray="6 4" />
+
+    <!-- Data points -->
+    {configA.map(([x, y]) => (
+      <circle cx={sx(x)} cy={sy(y)} r="2.5" fill="#2A9098" />
+    ))}
+    {configB.map(([x, y]) => (
+      <circle cx={sx(x)} cy={sy(y)} r="2.5" fill="#5EBDC4" />
+    ))}
+
+    <!-- Legend -->
+    <g transform={`translate(${W - PAD_R - 220}, ${PAD_T + 10})`}>
+      <rect x="0" y="0" width="210" height="60" fill="white" stroke="#D6ECEE" rx="6" />
+      <line x1="12" y1="20" x2="40" y2="20" stroke="#2A9098" stroke-width="2.4" />
+      <text x="48" y="24" font-family="Inter, sans-serif" font-size="12" fill="#0F2A2D">Config A · 20–50 V · 5 μm</text>
+      <line x1="12" y1="42" x2="40" y2="42" stroke="#5EBDC4" stroke-width="2.4" stroke-dasharray="6 4" />
+      <text x="48" y="46" font-family="Inter, sans-serif" font-size="12" fill="#0F2A2D">Config B · 50–80 V · 8 μm</text>
+    </g>
+
+    <!-- Annotation: peak point -->
+    <g>
+      <circle cx={sx(50)} cy={sy(2.351)} r="5" fill="none" stroke="#3FA89B" stroke-width="1.5" />
+      <line x1={sx(50)} y1={sy(2.351) - 6} x2={sx(50) + 30} y2={sy(2.351) - 30} stroke="#3FA89B" stroke-width="1" />
+      <text x={sx(50) + 35} y={sy(2.351) - 28} font-family="JetBrains Mono, monospace" font-size="11" fill="#3FA89B" font-weight="600">2.35° @ 50 V</text>
+    </g>
+  </svg>
+  <figcaption class="mt-3 font-mono text-xs text-ink-soft">
+    Fig. 2 — V-θ static characteristic from COMSOL FEA. Config A reaches θ = 2.35° at 50 V (max); Config B operates at higher voltage with thicker mirror. Power-law fit: n ≈ 1.99 (A), n ≈ 0.98 (B). Linearity vs analytical model: 99%.
+  </figcaption>
+</figure>

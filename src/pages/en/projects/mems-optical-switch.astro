@@ -1,0 +1,27 @@
+---
+import ProjectLayout from '@/layouts/ProjectLayout.astro';
+import MemsContent from '@/components/projects/MemsContent.astro';
+import { getLocaleFromUrl } from '@/lib/i18n';
+import { getProject } from '@/lib/projects';
+
+const locale = getLocaleFromUrl(Astro.url);
+const project = getProject('mems-optical-switch');
+
+const title = 'MEMS Optical Switch';
+const subtitle = "Electrostatic-driven optical switch · Master's thesis";
+const tldr = [
+  'Replaced torsion beams with SiO₂ serpentine springs and a split-bottom-electrode differential drive — net torque amplified 4×.',
+  'Built a full electromechanical coupled model; COMSOL FEA matched analytical theory at 99%.',
+  'Verified optimal sizing under two voltage configurations (20–50 V / 50–80 V); primary resonance at 1.7–2 kHz.',
+];
+---
+
+<ProjectLayout
+  project={project}
+  locale={locale}
+  title={title}
+  subtitle={subtitle}
+  tldr={tldr}
+>
+  <MemsContent locale={locale} />
+</ProjectLayout>
